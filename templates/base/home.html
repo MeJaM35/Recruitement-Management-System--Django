@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+{% include 'header.html' %}
+
+<div class="container-fluid">
+
+    
+
+
+
+<h1> Home Page </h1>
+
+         
+
+    <hr>
+
+    <div>
+
+        {% for Book in Books %}
+
+<img src='{{Book.cover.url}}'/>
+        <b> {{Book.title}} </b><a href='{% url "follow" Book.id %}' class='btn btn-primary'> <i class='fa fa-plus'> </i> </a>
+
+        <a href='{% url "profile" Book.author.id %}'> <p> - {{Book.author.username}} </p> </a>
+        <i> {{Book.updated}} </i>
+        <p> {{book.summary}} </p>
+        <a href='{% url "book" Book.id Book.title %}' class='btn btn-primary'> Read Now </a>
+
+
+
+        {% endfor %}
+    </div>
+
+
+
+</div>
+{% endblock %}
