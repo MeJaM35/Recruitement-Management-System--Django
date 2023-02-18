@@ -5,7 +5,7 @@ from .forms import UserSignUpForm, ProfileForm
 from django.contrib import messages
 from django.contrib.auth import login, logout , authenticate
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect 
 
 
 
@@ -66,3 +66,9 @@ def logoutUser(request):
 def home(request):
     return render(request, 'base/home.html', context={}) 
 # Create your views here.
+
+def contact(request):
+    return render(request, 'base/home.html', context={}) 
+
+def about(request):
+    return render(request, 'base/home.html', context={}) 

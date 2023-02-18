@@ -16,13 +16,18 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 #from . import base
-from . import settings
+from django.conf.urls.static import static
+from django.conf import settings
+
+
+
+admin.site.site_header = "RecruiterBox Admin"
+admin.site.site_title = "RecruiterBox  Admin Portal"
+admin.site.index_title = "Welcome toRecruiterBox  Researcher Portal"
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('base.urls')),
 ]
 
-from django.conf.urls.static import static
-from django.conf import settings
 

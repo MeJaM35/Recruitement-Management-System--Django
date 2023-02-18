@@ -19,19 +19,9 @@
 
     <div>
 
-        {% for Book in Books %}
+        <a href="{% url 'contact' %}"> contact </a>
+  <br>      <a href="{% url 'about' %}"> about</a>
 
-<img src='{{Book.cover.url}}'/>
-        <b> {{Book.title}} </b><a href='{% url "follow" Book.id %}' class='btn btn-primary'> <i class='fa fa-plus'> </i> </a>
-
-        <a href='{% url "profile" Book.author.id %}'> <p> - {{Book.author.username}} </p> </a>
-        <i> {{Book.updated}} </i>
-        <p> {{book.summary}} </p>
-        <a href='{% url "book" Book.id Book.title %}' class='btn btn-primary'> Read Now </a>
-
-
-
-        {% endfor %}
     </div>
 
 
