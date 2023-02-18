@@ -68,7 +68,7 @@ def home(request):
 # Create your views here.
 
 def contact(request):
-    return render(request, 'base/home.html', context={}) 
+    return render(request, 'base/contact.html', context={}) 
 
 def about(request):
-    return render(request, 'base/home.html', context={}) 
+    return render(request, 'base/about.html', context={}) 
