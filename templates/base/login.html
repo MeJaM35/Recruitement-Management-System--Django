@@ -1,43 +1,23 @@
 {% extends 'base.html' %}
 
-{% load static %}
-
 
 {% block content %}
 
-<link rel="stylesheet" href='{% static "css/style.css" %}' />
+<div class="container-fluid">
 
+<h1> Register </h1>
 
-
-
-<body>
-    <div class="wrapper">
-      <header>Login Form</header>
-      <form action="#" method='POST'>
+    <form method='POST'>
         {% csrf_token %}
-        <div class="field email">
-          <div class="input-area">
-            <input type="text" placeholder="Username">
-            <i class="icon fas fa-envelope"></i>
-            <i class="error error-icon fas fa-exclamation-circle"></i>
-          </div>
-          <div class="error error-txt">Email can't be blank</div>
-        </div>
-        <div class="field password">
-          <div class="input-area">
-            <input type="password" placeholder="Password">
-            <i class="icon fas fa-lock"></i>
-            <i class="error error-icon fas fa-exclamation-circle"></i>
-          </div>
-          <div class="error error-txt">Password can't be blank</div>
-        </div>
-        <div class="pass-txt"><a href="#">Forgot password?</a></div>
+        <input name='username' type=text placeholder="Username">
+        <input name="password" type="password" placeholder="password">
+        <br>
         <button type=submit class="btn btn-primary" > Login </button>
-      </form>
-      <div class="sign-txt">Not yet member? <a href="{% url 'register' %}" > Signup </a>></div>
-    </div>
-  
-    {% comment %} <script src="script.js"></script> {% endcomment %}
-  
-  </body>
+
+        
+    </form>
+    <a href="{% url 'register' %}" > Don't Have an account? </a>
+
+
+</div>
 {% endblock %}

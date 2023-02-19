@@ -9,7 +9,10 @@ class UserSignUpForm(UserCreationForm):
         model = User
         fields = ['username', 'first_name', 'last_name', 'email', 'password1', 'password2']
 
+
+
+
 class ProfileForm(ModelForm):
     class Meta:
         model = User
-        fields = ['pfp', 'username', 'first_name', 'last_name', 'email', 'bio' ]
+        fields = ['pfp', 'username', 'first_name', 'last_name', 'email' ]
