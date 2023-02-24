@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 
 class User(AbstractUser):
-    pfp = models.ImageField(upload_to='pfps', null=True, blank=True, default='default.jpg')
+    pfp = models.ImageField(upload_to='pfps', null=True, blank=True, default='user-regular.svg')
     username = models.CharField(max_length=20, null=True)
     email = models.EmailField(unique=True, null=True)
     fname = models.CharField(max_length=20, null=True)
