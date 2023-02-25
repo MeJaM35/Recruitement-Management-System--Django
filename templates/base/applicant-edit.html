@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<div class="container-fluid">
+
+    {% include 'header.html' %}
+
+<h1> Edit Details </h1>
+
+<hr>
+
+    <form method='POST'>
+        {% csrf_token %}
+
+        {{form.as_p}}
+
+        <button type='submit' class="btn btn-primary"> Edit </button>
+    </form>
+
+    
+
+
+</div>
+{% endblock %}

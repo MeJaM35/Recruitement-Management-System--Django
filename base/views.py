@@ -22,7 +22,7 @@ def register(request):
             messages.success(
                 request, f'Your account has been created! You are now logged in!')
             if user.is_Applicant:
-                return redirect('applicant-edit')
+                return redirect('applicant-details')
         else:
             form = UserSignUpForm(request.POST)
             messages.error(request, 'An error occurred during registration')
@@ -33,45 +33,64 @@ def register(request):
         'form' : form,
     }
     return render(request, 'base/register.html', context)
+    
+
+
+@login_required(login_url='login')
+def view_profile(request):
+    User = request.user
+    context = {
+        'User' : User,
+
+    }
+    return render(request, 'base/applicant-details.html', context)
+
+@login_required(login_url='login')
+def user_edit(request, pk):
+    user = User.objects.get(id=pk)
+    pform = ProfileForm(instance=request.user)
+    if request.method == 'POST':
+        #user.pfp = request.FILES
+        user.username = request.POST.get('username')
+        user.fname = request.POST.get('first_name')
+        user.lname = request.POST.get('last_name')
+        user.save()
+        return redirect('view-profile')
+
+        
+
+
+    context = {
+        'pform': pform,
+    }
+    return render(request, 'base/user-edit.html', context)
 
 @login_required(login_url='login')
 def applicant_edit(request):
+
+    form = ApplicantForm()
     User = request.user
-    form2 = ApplicantForm(request.POST)
-    form1 = ProfileForm(request.POST, instance=User)
-    try:
-        applicant = Applicant.objects.get(User=User)
-    except:
 
-            if request.method == 'POST':
-                
-                if form2.is_valid() and form1.is_valid():
-                    User = form1.save()
+    if request.method == 'POST':
+        Applicant.objects.update_or_create(
 
-                    applicant = form2.save(commit=False)
-                    print(applicant)
-                    Applicant.objects.create(User=User,
-                    about = form2.about,
-                    pronouns = form2.pronouns,
-                    age = form2.age,
-                    location = form2.location,
-                    resume = form2.resume,
+            User = User,
+            about = request.POST.get('about'),
+            age = request.POST.get('age'),
+            pronouns = request.POST.get('pronouns'),
+            location = request.POST.get('location'),
+            resume = request.POST.get('resume'),
 
+        )
+        return redirect('view-profile')
+        
 
-                    
-                    )
-                    
-
-                    return redirect('applicant-edit')
 
     context = {
-        'form2': form2,
-        'form1': form1,
-
-    
+        'form': form,
     }
-
-    return render(request, 'base/profile.html', context)
+    return render(request, 'base/applicant-edit.html', context)
+          
 
 
 def loginUser(request):

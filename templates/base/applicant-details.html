@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+
+
+{% include 'header.html' %}
+
+<div class="container-fluid">
+
+    
+
+
+
+<h1> View Profile </h1>
+
+
+
+<img
+                  src="{{request.user.pfp.url}}"
+                  class="rounded-circle"
+                  height="60"
+                  alt="Portrait of a Woman"
+                  loading="lazy"
+                />
+                <br>
+                <b> {{User.username}} </b>
+                <br> 
+                {{User.email}} 
+                <br> 
+                {{User.fname}}
+            
+                {{User.lname}}
+
+                <a
+                class="nav-link d-flex align-items-center"
+               href="{% url 'user-edit' User.id %}"
+                
+              > Edit</a>
+
+                <hr>
+
+
+
+                {{User.age}}
+
+                {{User.pronouns}}
+                <br>
+                {{User.phone}}
+                <br>
+
+                {{User.applicant.about}} 
+            
+
+                <a
+                class="nav-link d-flex align-items-center"
+               href="{% url 'applicant-edit' %}"
+                
+              > Edit</a>
+
+              
+
+
+         
+
+
+
+</div>
+{% endblock %}

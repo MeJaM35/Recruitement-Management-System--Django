@@ -21,4 +21,4 @@ class ProfileForm(ModelForm):
 class ApplicantForm(ModelForm):
     class Meta:
         model = Applicant
-        fields = ['about', 'age', 'pronouns', 'resume' ]
+        fields = ['about', 'age', 'pronouns', 'location', 'resume',  ]

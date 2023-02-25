@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<div class="container-fluid">
+
+    {% include 'header.html' %}
+
+<h1> Edt Details </h1>
+
+<form enctype="multipart/form-data" method='POST'>
+    {% csrf_token %}
+{{pform.as_p}}
+    
+
+    <button type='submit' class="btn btn-primary"> Edit </button>
+</form>
+
+
+    
+
+
+</div>
+{% endblock %}

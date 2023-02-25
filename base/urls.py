@@ -10,6 +10,8 @@ urlpatterns = [
 
 
     path('applicant/more-details', views.applicant_edit, name='applicant-edit'),
+    path('applicant/edit-details/<str:pk>/', views.user_edit, name='user-edit'),
+    path('applicant/view-profile', views.view_profile, name='view-profile'),
 
 
 
