@@ -1,7 +1,7 @@
 import email
 from django.shortcuts import render, redirect
-from .models import User, Applicant, Skill, Edu
-from .forms import UserSignUpForm, ApplicantForm, ProfileForm
+from .models import User, Applicant, Skill, Edu, Exp
+from .forms import UserSignUpForm, ApplicantForm, ProfileForm, EduForm, ExpForm
 from django.contrib import messages
 from django.contrib.auth import login, logout , authenticate
 from django.contrib.auth.decorators import login_required
@@ -41,15 +41,64 @@ def view_profile(request):
     User = request.user
     Skills = Skill.objects.filter(applicant = User.applicant)
     edu = Edu.objects.filter(applicant = User.applicant)
+    exp = Exp.objects.filter(applicant = User.applicant)
     
     context = {
         'User' : User,
         'Skills' : Skills,
         'Edu' : edu,
+        'exp': exp,
 
     }
     return render(request, 'base/applicant-details.html', context)
 
+
+@login_required(login_url='login')
+def add_edu(request):
+    User =request.user
+    edu = Edu.objects.filter(applicant = User.applicant)
+    form = EduForm(request.POST)
+    if request.method == 'POST':
+       edu = form.save()
+       User.applicant.edu.add(edu)
+
+
+       return redirect('view-profile')
+   
+
+        
+
+
+    context = {
+        'User': User,
+        'form': form,
+        'edu': edu,
+    }
+    return render(request, 'base/add-edu.html', context)
+
+
+@login_required(login_url='login')
+def add_exp(request):
+    User =request.user
+    exp = Exp.objects.filter(applicant = User.applicant)
+    form = ExpForm(request.POST)
+    if request.method == 'POST':
+       exp = form.save()
+       User.applicant.exp.add(exp)
+
+
+       return redirect('view-profile')
+   
+
+        
+
+
+    context = {
+        'User': User,
+        'form': form,
+        'exp': exp,
+    }
+    return render(request, 'base/add-exp.html', context)
 
 @login_required(login_url='login')
 def add_skills(request):

@@ -81,7 +81,7 @@
 
 {% for E in Edu %}
 
-{{E.degree}} {{E.start_date|time}} {{E.end_date|time}}
+{{E.degree}} {{E.start_date}} {{E.end_date}}
 <br>
 {{E.inst}}
 <br>
@@ -97,7 +97,34 @@
 
 <a
                 class="nav-link d-flex align-items-center"
-               href="{% url 'add-skill' %}"
+               href="{% url 'add-edu' %}"
+                
+              > Add</a>
+
+
+              <hr>
+
+<h2> Experience: </h2>
+
+{% for e in exp %}
+
+{{e.role}} {{e.start_date}} {{e.end_date}}
+<br>
+{{e.company}}
+<br>
+
+{% comment %} <!-- {% for Skill in E.skills %}
+
+{{Skill.name}}
+
+{% endfor %} --> {% endcomment %}
+
+
+{% endfor %}
+
+<a
+                class="nav-link d-flex align-items-center"
+               href="{% url 'add-exp' %}"
                 
               > Add</a>
 

@@ -68,23 +68,35 @@ class Applicant(models.Model):
 
 
 
-# class Recruiter(models.Model):
-#     User = models.ForeignKey(User, null=True, on_delete= models.CASCADE)
-#     role = models.CharField(max_length=50, null=True)
+class Recruiter(models.Model):
+    User = models.ForeignKey(User, null=True, on_delete= models.CASCADE)
+    role = models.CharField(max_length=50, null=True)
 
-#     def __str__(self):
-#         return 'r'+self.User.username
+    def __str__(self):
+        return 'r_'+self.User.username
 
-# class Organization(models.Model):
-#     name = models.CharField(max_length=50, null=True)
-#     logo = models.ImageField(upload_to='pfps', null=True, blank=True, default='default.jpg')
-#     admin = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
-#     email = models.EmailField(null=True, unique=True)
-#     website = models.URLField(null=True, blank=True)
-#     recruiters = models.ManyToManyField(Recruiter, blank=True, related_name='org', on_delete=models.CASCADE)
+class Organization(models.Model):
+    name = models.CharField(max_length=50, null=True)
+    logo = models.ImageField(upload_to='pfps', null=True, blank=True, default='default.jpg')
+    admin = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
+    email = models.EmailField(null=True, unique=True)
+    website = models.URLField(null=True, blank=True)
+    recruiters = models.ManyToManyField(Recruiter, blank=True, related_name='org')
+    activated = models.BooleanField(default=False)
 
-#     def __str__(self):
-#         return self.name
+    def __str__(self):
+        return self.name
+
+class Job(models.Model):
+    Org = models.ForeignKey(Organization, related_name='org', on_delete=models.CASCADE)
+    Recruiter = models.ForeignKey(Recruiter, related_name='recruiter', on_delete=models.CASCADE)
+    position = models.CharField(max_length=20, null=True)
+    created = models.DateTimeField(auto_now_add=True)
+    start_date = models.DateField()
+    pay_range = models.IntegerField()
+    description = models.TextField(null=True)
+
+
 
 
 # Create your models here.

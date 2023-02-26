@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+
+
+{% include 'header.html' %}
+
+<div class="container-fluid">
+
+    
+
+
+
+<h1> Add Education </h1>
+
+
+
+{% for e in exp %}
+
+{{e.role}}
+<br>
+{{e.company}}
+<br>
+{{e.start_date}}|{{e.end_date}}
+
+<br>
+
+{% endfor %}
+
+
+
+<form method='POST'>
+  {% csrf_token %}
+
+  {{form.as_p}}
+
+  <button type='submit' class="btn btn-primary"> Edit </button>
+</form>
+
+
+
+              
+
+
+         
+
+
+
+</div>
+{% endblock %}

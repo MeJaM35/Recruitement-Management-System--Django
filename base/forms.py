@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import ModelForm
-from .models import User, Applicant
+from .models import User, Applicant, Edu, Exp
 from django.contrib.auth.forms import UserCreationForm
 
 
@@ -22,3 +22,15 @@ class ApplicantForm(ModelForm):
     class Meta:
         model = Applicant
         fields = ['about', 'age', 'pronouns', 'location', 'resume',  ]
+
+
+class EduForm(ModelForm):
+    class Meta:
+        model = Edu
+        fields = ['degree', 'inst', 'start_date', 'end_date', 'grade', 'credentials'  ]
+
+
+class ExpForm(ModelForm):
+    class Meta:
+        model = Exp
+        fields = ['role', 'company', 'start_date', 'end_date'  ]
