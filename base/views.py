@@ -1,11 +1,54 @@
 import email
 from django.shortcuts import render, redirect
-from .models import User, Applicant, Skill, Edu, Exp
-from .forms import UserSignUpForm, ApplicantForm, ProfileForm, EduForm, ExpForm
+from .models import User, Applicant, Skill, Edu, Exp, Organization
+from .forms import UserSignUpForm, ApplicantForm, ProfileForm, EduForm, ExpForm, OrgForm, AdminForm
 from django.contrib import messages
 from django.contrib.auth import login, logout , authenticate
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect 
+
+
+
+def register_org(request):
+    if request.user.is_authenticated:
+        return redirect('home')
+    form = OrgForm(request.POST)
+    if request.method == 'POST':
+        if form.is_valid():
+            org = form.save()
+            return redirect('register-admin', org.id)
+
+    context = {
+        'form' : form,
+    }
+
+    return render(request, 'base/org_create.html', context)
+
+
+def register_admin(request,pk):
+    form = AdminForm(request.POST)
+    if request.user.is_authenticated:
+        return redirect('home')
+    org = Organization.objects.get(id=pk)
+    if form.is_valid():
+            user = form.save(commit=False)
+            user.is_applicant = False
+            user.email = org.email
+            user.username = org.name+"_admin"
+            user.save()
+            org.admin = user
+            org.is_activated = True
+            org.save()
+            login(request, user)
+            return redirect('home')
+            
+
+    context = {
+       'form': form,
+    }
+
+    return render(request, 'base/admin-register.html', context)
+
 
 
 

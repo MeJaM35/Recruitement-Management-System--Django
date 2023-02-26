@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<div class="container-fluid">
+
+<h1> Register Organization </h1>
+
+    <form method='POST'>
+        {% csrf_token %}
+        {{form.as_p}}
+
+        <button type='submit' class="btn btn-primary"> Register </button>
+    </form>
+
+    <a href="{% url 'login' %}"> Have an account? </a>
+
+
+</div>
+{% endblock %}

@@ -33,11 +33,15 @@
 
 
             <li class="nav-item dropdown float-right">
+
+              {% if user.is_applicant %}
               <a
                 class="nav-link d-flex align-items-center"
                href="{% url 'view-profile' %}"
                 
               >
+
+              {% endif %}
                 <img
                   src="{{request.user.pfp.url}}"
                   class="rounded-circle"

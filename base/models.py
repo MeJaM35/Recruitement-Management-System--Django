@@ -78,7 +78,7 @@ class Recruiter(models.Model):
 class Organization(models.Model):
     name = models.CharField(max_length=50, null=True)
     logo = models.ImageField(upload_to='pfps', null=True, blank=True, default='default.jpg')
-    admin = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
+    admin = models.ForeignKey(User, blank=True, null=True, on_delete=models.CASCADE)
     email = models.EmailField(null=True, unique=True)
     website = models.URLField(null=True, blank=True)
     recruiters = models.ManyToManyField(Recruiter, blank=True, related_name='org')

@@ -15,6 +15,16 @@
 
 <h1> Home Page </h1>
 
+{% if user.is_authenticated %}
+
+
+
+{% else %}
+
+<a href='{% url 'register-org' %}'> <h3> Register as Organization </h3> </a>
+
+{% endif %}
+
          
 
 

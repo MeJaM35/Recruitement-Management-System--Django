@@ -16,6 +16,9 @@ urlpatterns = [
     path('applicant/edit-details/<str:pk>/', views.user_edit, name='user-edit'),
     path('applicant/view-profile', views.view_profile, name='view-profile'),
 
+    path('organization/register', views.register_org, name='register-org'),
+    path('organization/admin/register/<str:pk>', views.register_admin, name='register-admin'),
+
 
 
     path('contact',views.contact, name='contact'),
