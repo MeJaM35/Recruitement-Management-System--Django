@@ -1,6 +1,6 @@
 import email
 from django.shortcuts import render, redirect
-from .models import User, Applicant
+from .models import User, Applicant, Skill, Edu
 from .forms import UserSignUpForm, ApplicantForm, ProfileForm
 from django.contrib import messages
 from django.contrib.auth import login, logout , authenticate
@@ -39,29 +39,58 @@ def register(request):
 @login_required(login_url='login')
 def view_profile(request):
     User = request.user
+    Skills = Skill.objects.filter(applicant = User.applicant)
+    edu = Edu.objects.filter(applicant = User.applicant)
+    
     context = {
         'User' : User,
+        'Skills' : Skills,
+        'Edu' : edu,
 
     }
     return render(request, 'base/applicant-details.html', context)
 
+
 @login_required(login_url='login')
-def user_edit(request, pk):
-    user = User.objects.get(id=pk)
-    pform = ProfileForm(instance=request.user)
+def add_skills(request):
+    page = 'add_skill'
+    User =request.user
+    Skills = Skill.objects.filter(applicant = User.applicant)
     if request.method == 'POST':
-        #user.pfp = request.FILES
-        user.username = request.POST.get('username')
-        user.fname = request.POST.get('first_name')
-        user.lname = request.POST.get('last_name')
-        user.save()
+        skill = Skill.objects.create(
+            name = request.POST.get('skill'),
+        )
+        User.applicant.skills.add(skill)
+
+
         return redirect('view-profile')
+   
 
         
 
 
     context = {
-        'pform': pform,
+        'User': User,
+        'Skills': Skills,
+    }
+    return render(request, 'base/add-skills.html', context)
+
+@login_required(login_url='login')
+def user_edit(request, pk):
+    user = User.objects.get(id=pk)
+    form = ProfileForm(instance=user)
+    if request.method == 'POST':
+        form = ProfileForm(request.POST, request.FILES, instance=user)
+        if form.is_valid():
+            form.save()
+            return redirect('view-profile')
+   
+
+        
+
+
+    context = {
+        'pform': form,
     }
     return render(request, 'base/user-edit.html', context)
 

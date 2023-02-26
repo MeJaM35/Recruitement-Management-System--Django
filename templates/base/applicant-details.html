@@ -59,6 +59,52 @@
                 
               > Edit</a>
 
+              <hr>
+
+<h2> Skills: </h2>
+
+{% for Skill in Skills %}
+
+{{Skill.name}}
+
+{% endfor %}
+
+<a
+                class="nav-link d-flex align-items-center"
+               href="{% url 'add-skill' %}"
+                
+              > Add</a>
+
+              <hr>
+
+<h2> Education: </h2>
+
+{% for E in Edu %}
+
+{{E.degree}} {{E.start_date|time}} {{E.end_date|time}}
+<br>
+{{E.inst}}
+<br>
+
+{% comment %} <!-- {% for Skill in E.skills %}
+
+{{Skill.name}}
+
+{% endfor %} --> {% endcomment %}
+
+
+{% endfor %}
+
+<a
+                class="nav-link d-flex align-items-center"
+               href="{% url 'add-skill' %}"
+                
+              > Add</a>
+
+
+
+
+
               
 
 

@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+
+
+{% include 'header.html' %}
+
+<div class="container-fluid">
+
+    
+
+
+
+<h1> Add Skills </h1>
+
+
+
+{% for Skill in Skills %}
+
+{{Skill.name}}
+
+{% endfor %}
+
+
+
+<form method='POST'>
+  {% csrf_token %}
+
+  <input type='text' name='skill'>
+
+  <button type='submit' class="btn btn-primary"> Edit </button>
+</form>
+
+
+
+              
+
+
+         
+
+
+
+</div>
+{% endblock %}
