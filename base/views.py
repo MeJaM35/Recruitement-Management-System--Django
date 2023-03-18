@@ -298,4 +298,6 @@ def contact(request):
 def about(request):
     return render(request, 'base/about.html', context={}) 
 
-
+def notif(request):
+   
+    return render(request, 'base/notif.html', context={})

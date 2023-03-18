@@ -436,6 +436,71 @@ padding-bottom: -10px;
   display: block;
   margin: 0 auto;
 }
+ /* Saaras code */
+.bubble{
+  background-color: rgba(241, 255, 255, 1);
+  width: 1338px;
+  height: 748px;
+}
+.notifications{
+  position: absolute;
+width: 207px;
+height: 53px;
+left: 94px;
+top: 228px;
+
+font-family: 'Poppins';
+font-style: normal;
+font-weight: 600;
+font-size: 35px;
+line-height: 52px;
+}
+.Rectangle{
+position: absolute;
+width: 1252px;
+height: 150px;
+left: 94px;
+top: 307px;
+
+background: #EEEEEE;
+mix-blend-mode: multiply;
+border-radius: 25px;
+}
+.nfy{
+  position: absolute;
+left: 10.00%;
+right: 89.7%;
+top: 34.38%;
+bottom: 60.5%;
+
+position: absolute;
+width: 453px;
+height: 45px;
+left: 195px;
+top: 337px;
+
+font-family: 'Poppins';
+font-style: normal;
+font-weight: 500;
+font-size: 30px;
+line-height: 45px;
+
+color: #000000;
+
+}
+.hyg{
+position: absolute;
+width: 151px;
+height: 38px;
+left: 198px;
+top: 378px;
+
+font-family: 'Poppins';
+font-style: normal;
+font-weight: 500;
+font-size: 25px;
+line-height: 38px;
+/* identical to box height */
 
 .profile-bbl{
   margin-top: 20px;
@@ -503,6 +568,101 @@ padding-bottom: -10px;
 
 .fl{
   text-align: right ;
+
+}
+
+color: rgba(0, 0, 0, 0.5);
+
+}
+.rect2{
+  position: absolute;
+width: 1252px;
+height: 150px;
+left: 93px;
+top: 483px;
+
+background: #EEEEEE;
+mix-blend-mode: multiply;
+border-radius: 25px;
+}
+.nfy2{
+position: absolute;
+width: 453px;
+height: 45px;
+left: 194px;
+top: 513px;
+
+font-family: 'Poppins';
+font-style: normal;
+font-weight: 500;
+font-size: 30px;
+line-height: 45px;
+
+
+color: #000000;
+}
+.hyg2{
+position: absolute;
+width: 151px;
+height: 38px;
+left: 197px;
+top: 554px;
+
+font-family: 'Poppins';
+font-style: normal;
+font-weight: 500;
+font-size: 25px;
+line-height: 38px;
+
+
+
+color: rgba(0, 0, 0, 0.5);
+}
+.rect3{
+  position: absolute;
+width: 1252px;
+height: 150px;
+left: 94px;
+top: 668px;
+
+background: #EEEEEE;
+mix-blend-mode: multiply;
+border-radius: 25px;
+}
+.nfy3{
+position: absolute;
+width: 453px;
+height: 45px;
+left: 195px;
+top: 698px;
+
+font-family: 'Poppins';
+font-style: normal;
+font-weight: 500;
+font-size: 30px;
+line-height: 45px;
+
+
+
+color: #000000;
+
+}
+.hyg3{
+  position: absolute;
+width: 151px;
+height: 38px;
+left: 198px;
+top: 739px;
+
+font-family: 'Poppins';
+font-style: normal;
+font-weight: 500;
+font-size: 25px;
+line-height: 38px;
+/* identical to box height */
+
+
+color: rgba(0, 0, 0, 0.5);
 
 }
 
