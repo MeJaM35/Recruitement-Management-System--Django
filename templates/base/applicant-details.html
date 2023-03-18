@@ -10,10 +10,16 @@
 <div class="container-fluid">
 
     
+<div class="rounded25 f1ff profile-bbl">
 
 
+<div class="pfp-div ">
 
-<div class="pfp-div">
+  <a
+                class="edit-btn nav-link d-flex align-items-center rounded25 eee"
+               href="{% url 'user-edit' User.id %}"
+                
+              ><i class="fa-regular fa-pen-to-square"></i></a>
 
   <img
                   src="{{request.user.pfp.url}}"
@@ -32,14 +38,11 @@
             
                 {{User.lname}}
 
-                <a
-                class="nav-link d-flex align-items-center"
-               href="{% url 'user-edit' User.id %}"
                 
-              > Edit</a>
 
             </div>
 
+          </div>
 
 
 
@@ -47,94 +50,136 @@
 
 
 
-                <hr>
 
+          <div class="rounded25 f1ff profile-bbl">
 
+          <div class="pfp-div ">
 
-                {{User.age}}
-
-                {{User.pronouns}}
-                <br>
-                {{User.phone}}
-                <br>
-
-                {{User.applicant.about}} 
-            
-
-                <a
-                class="nav-link d-flex align-items-center"
+            <a
+                class=" edit-btn nav-link d-flex align-items-center rounded25 eee"
                href="{% url 'applicant-edit' %}"
                 
-              > Edit</a>
+              > <i class="fa-regular fa-pen-to-square"></i></a>
 
-              <hr>
+                <b> Age:</b> {{User.age}}
 
-<h2> Skills: </h2>
+                <b> Pronouns: </b><i>{{User.pronouns}} </i>
+                <br>
+                <b> Phone: </b>{{User.phone}}
+                <br>
+
+                <b> About: </b> {{User.applicant.about}} 
+            
+
+                </div>
+                </div>
+
+                <div class="rounded25 f1ff profile-bbl">
+
+                  <div class="pfp-div ">
+
+                    <a
+                class="edit-btn nav-link d-flex align-items-center rounded25 eee"
+               href="{% url 'add-skill' %}"
+                
+              > <i class="fa-regular fa-pen-to-square"></i></a>
+
+
+<h4> Skills: </h4>
+
 
 {% for Skill in Skills %}
 
-{{Skill.name}}
+<div class="bbl rounded25 float-left"> {{Skill.name}} </div>
+
+
 
 {% endfor %}
 
-<a
-                class="nav-link d-flex align-items-center"
-               href="{% url 'add-skill' %}"
+
+
+            </div>
+          </div>
+
+          <div class="rounded25 f1ff profile-bbl">
+
+            <div class="pfp-div ">
+
+              <a
+                class="edit-btn nav-link d-flex align-items-center rounded25 eee"
+               href="{% url 'add-edu' %}"
                 
-              > Add</a>
+              > <i class="fa-regular fa-pen-to-square"></i></a>
 
-              <hr>
+              
 
-<h2> Education: </h2>
+<h4> Education: </h4>
+
+
 
 {% for E in Edu %}
 
-{{E.degree}} {{E.start_date}} {{E.end_date}}
-<br>
+<div class="bbl-lg rounded25 ">
+  <div>
+
+<h5>{{E.degree}} </h5>  <div class="fl"><b> Start Date: </b>{{E.start_date}} <br> <b> Start Date: </b> {{E.end_date}} </div>
+
+</div>
+
 {{E.inst}}
-<br>
 
-{% comment %} <!-- {% for Skill in E.skills %}
 
-{{Skill.name}}
 
-{% endfor %} --> {% endcomment %}
-
+</div>
 
 {% endfor %}
 
-<a
-                class="nav-link d-flex align-items-center"
-               href="{% url 'add-edu' %}"
-                
-              > Add</a>
 
 
-              <hr>
+</div>
+</div>
 
-<h2> Experience: </h2>
+<div class="rounded25 f1ff profile-bbl">
+
+  <div class="pfp-div ">
+
+    <a
+      class="edit-btn nav-link d-flex align-items-center rounded25 eee"
+     href="{% url 'add-exp' %}"
+      
+    > <i class="fa-regular fa-pen-to-square"></i></a>
+
+    
+
+<h4> Experience: </h4>
+
+
 
 {% for e in exp %}
 
-{{e.role}} {{e.start_date}} {{e.end_date}}
-<br>
+<div class="bbl-lg rounded25 ">
+<div>
+
+<h5>{{e.role}} </h5>  <div class="fl"><b> Start Date: </b>{{e.start_date}} <br> <b> Start Date: </b> {{e.end_date}} </div>
+
+</div>
+
 {{e.company}}
-<br>
 
-{% comment %} <!-- {% for Skill in E.skills %}
 
-{{Skill.name}}
 
-{% endfor %} --> {% endcomment %}
-
+</div>
 
 {% endfor %}
 
-<a
-                class="nav-link d-flex align-items-center"
-               href="{% url 'add-exp' %}"
-                
-              > Add</a>
+
+
+</div>
+</div>
+
+
+
+
 
 
 
