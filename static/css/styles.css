@@ -501,7 +501,7 @@ font-weight: 500;
 font-size: 25px;
 line-height: 38px;
 /* identical to box height */
-
+}
 .profile-bbl{
   margin-top: 20px;
   margin-left: 20px;
@@ -571,9 +571,7 @@ line-height: 38px;
 
 }
 
-color: rgba(0, 0, 0, 0.5);
 
-}
 .rect2{
   position: absolute;
 width: 1252px;
@@ -586,6 +584,12 @@ mix-blend-mode: multiply;
 border-radius: 25px;
 }
 .nfy2{
+  position: absolute;
+left: 9.58%;
+right: 89.77%;
+top: 51.56%;
+bottom: 43.31%;
+
 position: absolute;
 width: 453px;
 height: 45px;
