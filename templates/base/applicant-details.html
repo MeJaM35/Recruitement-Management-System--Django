@@ -13,19 +13,18 @@
 
 
 
-<h1> View Profile </h1>
+<div class="pfp-div">
 
-
-
-<img
+  <img
                   src="{{request.user.pfp.url}}"
                   class="rounded-circle"
-                  height="60"
-                  alt="Portrait of a Woman"
                   loading="lazy"
                 />
                 <br>
+</div>
+                <div class="username">
                 <b> {{User.username}} </b>
+             
                 <br> 
                 {{User.email}} 
                 <br> 
@@ -38,6 +37,15 @@
                href="{% url 'user-edit' User.id %}"
                 
               > Edit</a>
+
+            </div>
+
+
+
+
+
+
+
 
                 <hr>
 
