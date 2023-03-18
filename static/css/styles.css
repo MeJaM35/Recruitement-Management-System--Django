@@ -5,7 +5,7 @@
   box-sizing: border-box;
   font-family: "Poppins", sans-serif;
 }
-body{
+.login-bg body{
   width: 100%;
   height: 100vh;
   display: flex;
@@ -142,7 +142,87 @@ form input[type="submit"]:hover{
   background: #2c52ed;
 }
 
-.nav-right{
+/* 
+meet css */
+
+
+.rounded25{
+  border-radius: 25px;
+}
+
+.search{
+  font-size: 35px;
+  font-family: 'Poppins';
+  mix-blend-mode: darken;
+  font-size: 34px;
+  /* width: 606px;
+  height: 74px; */
+  background-color: #0000;
+  border-width: 0px;
+  padding-right: 5px;
+  clip-path: polygon(0 0, 0% 100%, 100% 0);
+}
+
+.icon {
+
+  font-size: 34px;
+  margin-right: 10px ;
   
 
+}
+
+.search-icon{
+
+
+font-size: 34px;
+ width : 55px;
+/* height : 74px;  */
+background-color: transparent;
+border-width: 0px;
+mix-blend-mode: darken;
+
+
+
+}
+
+.logo{
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dropdown {
+  position: relative;
+  
+}
+
+.dropdown ul {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  display: none;
+}
+
+.menu-trigger {
+  cursor: pointer;
+}
+
+.menu-trigger:hover + ul {
+  display: block;
+  transition-delay: 0.2s;
+}
+
+.dropdown li {
+  list-style: none;
+  transform: translateX(-100px);
+}
+
+.dropdown li a {
+  display: block;
+  padding: 10px;
+}
+
+.menu-trigger:checked + label + .dropdown-menu {
+  display: block;
 }

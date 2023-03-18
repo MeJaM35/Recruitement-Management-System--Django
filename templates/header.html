@@ -1,103 +1,148 @@
 <!DOCTYPE html>
 <html lang="en">
-    {% load static %}
-
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="{% static 'css/styles.css'}">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
-      integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous" />
-      <link href="{% static 'fontawesomefree/css/fontawesome.css' %}" rel="stylesheet" type="text/css">
-    <link href="{% static 'fontawesomefree/css/brands.css' %}" rel="stylesheet" type="text/css">
-    <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="style.css">
-    <title> Recruiter Header </title>
-</head>
-
-<body>
-
+  {% load static %}
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx"
+      crossorigin="anonymous"
+    />
+    <link
+      href="{% static 'fontawesomefree/css/fontawesome.css' %}"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="{% static 'fontawesomefree/css/brands.css' %}"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="{% static 'fontawesomefree/css/solid.css' %}"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Poppins"
+      rel="stylesheet"
+    />
+    <title>Recruiter Header</title>
+  </head>
+  <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-          <ul class="navbar-nav">
+      <div class="container-fluid">
+        <ul class="navbar-nav logo">
+          <li class="nav-logo float-left">
+            <h1>
+              <a href="{% url 'home' %}">
+                <img
+                  src="{% static 'assets/logo.svg' %}"
+                  width="250"
+                  height="50.2"
+                />
+              </a>
+            </h1>
+          </li>
 
-            <li class="nav-logo float-left">
-                <h1> <a href="{% url 'home' %}">
-                <img src="{% static 'assets/logo.svg' %}" width="250" height="50.2">
-                </a> </h1>
+        </ul>
+
+          <ul class="navbar-nav logo float-right">
+            <li class="float-right icon">
+              <input
+                class="rounded25 search"
+                type="text"
+                placeholder="Search"
+              />
+              <button class="search-icon rounded25">
+                <i class="icon fa-sharp fa-solid fa-magnifying-glass"></i>
+              </button>
             </li>
             <!-- Avatar -->
             {% if user.is_authenticated %}
 
-            <li>
-                <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
-              </li>
-              <li>
-              <input type="text" placeholder="Search..">
-              </li>
-
             <li class="nav-item dropdown float-right">
-
               {% if user.is_applicant %}
               <a
                 class="nav-link d-flex align-items-center"
-               href="{% url 'view-profile' %}"
-                
+                href="{% url 'view-profile' %}"
               >
+                {% endif %}
 
-              {% endif %}
-                <img
-                  src="{{request.user.pfp.url}}"
-                  class="rounded-circle"
-                  height="22"
-                  alt="Portrait of a Woman"
-                  loading="lazy"
-                />
-                {{request.user.username}}
+                <i class="fa-regular fa-bell icon"></i>
               </a>
-              </li>
-              
-                
-                
-            
-            {% else %}
+            </li>
+
+            <li>
+              <div class="dropdown">
+                <div class="menu-trigger">
+                  <i class="fa-regular fa-user icon"></i>
+                </div>
+                <ul>
+                  <li>
+                    <a
+                      class="nav-link d-flex align-items-center"
+                      href="{% url 'view-profile' %}"
+                    >
+                      Profile</a
+                    >
+                  </li>
+
+                  <li>
+                    <a
+                      class="nav-link d-flex align-items-center"
+                      href="{% url 'logout' %}"
+                      >Logout
+                    </a>
+                  </li>
+                </ul>
+              </div>
+
+              {% else %}
+            </li>
 
             <li class="nav-item float-right">
-                
-                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                      <a class="nav-link active" aria-current="page" href="{% url 'login' %}">Login</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="{% url 'register' %}">Register</a>
-                    </li>
-                    
-                    
-                      <li class="nav-right">
-                        <input type="text" placeholder="Search..">
-                     
-                      <li class="nav-right">
-                        <img src="wrongname.gif" alt="bell icon">
-                      </li>
-                      <li class="nav-right">
-                        <img src="wrongname.gif" alt="person icon">
-                      </li>
-                      
-                    </li>
-                    
-                    </ul>
+              <div class="dropdown">
+                <div class="menu-trigger">
+                  <i class="fa-regular fa-user icon"></i>
+                </div>
+                <ul>
+                  <li>
+                    <a
+                      class="nav-link d-flex align-items-center"
+                      href="{% url 'login' %}"
+                    >
+                      Login</a
+                    >
+                  </li>
 
+                  <li>
+                    <a
+                      class="nav-link d-flex align-items-center"
+                      href="{% url 'register' %}"
+                      >Register
+                    </a>
+                  </li>
 
-              </li>
+                  <li>
+                    <a
+                      class="nav-link d-flex align-items-center"
+                      href="{% url 'register-org' %}"
+                      >Register as Organization
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </li>
 
-              {% endif %}
+            {% endif %}
           </ul>
-        </div>
-      </nav>
-
-
-    
-</body>
+        
+      </div>
+    </nav>
+  </body>
 </html>

@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% include 'header.html' %}
+
+
+{% block content %}
+
+<div class="container-fluid">
+
+{% include 'header.html' %}
+
+<h1> Add User </h1>
+
+    <form method='POST'>
+        {% csrf_token %}
+        {{form.as_p}}
+
+        <label for="role value='Role'> Role </label>
+        <input type="text" name="role"/>
+        
+
+        <button type='submit' class="btn btn-primary"> Add Recruiter </button>
+    </form>
+
+
+
+</div>
+{% endblock %}

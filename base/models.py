@@ -1,14 +1,21 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
+
+ROLE_CHOICES = (
+    ('admin', 'admin'),
+    ('recruiter', 'recruiter'),
+    ('applicant', 'applicant'),
+)
+
 class User(AbstractUser):
     pfp = models.ImageField(upload_to='pfps', null=True, blank=True, default='user-regular.svg')
-    username = models.CharField(max_length=20, null=True)
+    username = models.CharField(max_length=50, null=True)
     email = models.EmailField(unique=True, null=True)
     fname = models.CharField(max_length=20, null=True)
     lname = models.CharField(max_length=20, null=True)
     phone = models.BigIntegerField(null=True)
-    is_applicant = models.BooleanField(default=True)
+    role = models.CharField(max_length = 50, choices = ROLE_CHOICES, default='applicant')
     #bio = models.TextField(blank=True, null=True)
     #pronouns = models.CharField(max_length=10, null=True, blank=True)
     ##pfp = models.ImageField(upload_to='pfps', null=True, blank=True, default='default.jpg')

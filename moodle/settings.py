@@ -38,9 +38,16 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    #user specified
+    #user dependency
+    'crispy_forms',
+    'fontawesomefree',
+
+    #'organizations',
+
+    #user app
 
     'base',
+    
 ]
 
 MIDDLEWARE = [
@@ -79,13 +86,12 @@ WSGI_APPLICATION = 'moodle.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-        # 'NAME': 'moodle',
-        # 'USER': 'root',
-        # 'PASSWORD': 'meet2004',
-        # 'HOST': 'localhost',
-        # 'PORT': '3306',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'moodle',
+        'USER': 'root',
+        'PASSWORD': 'meet2004',
+        'HOST': 'localhost',
+        'PORT': '3306',
     }
 }
 
@@ -134,6 +140,19 @@ MEDIA_URL = '/media/'
 STATICFILES_DIRS = [
     BASE_DIR, "static"
 ]
+
+
+EMAIL_HOST              = 'mail.sertibots.com'
+
+EMAIL_HOST_USER         = 'mj@sertibots.com'
+
+EMAIL_HOST_PASSWORD     = 'meet2004'
+
+EMAIL_PORT              = 465
+
+EMAIL_USE_TLS           = True
+
+EMAIL_USE_SSL           = False
 
 
 

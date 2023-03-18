@@ -27,7 +27,17 @@
 
 {% endif %}
 
-         
+
+{%if user.role == 'admin' %}
+
+<a href="{% url 'add-recruiter' %}" > Add Recruiter </a>
+
+
+{% endif %}
+
+
+
+
 
 
 

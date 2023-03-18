@@ -18,6 +18,7 @@ urlpatterns = [
 
     path('organization/register', views.register_org, name='register-org'),
     path('organization/admin/register/<str:pk>', views.register_admin, name='register-admin'),
+    path('organization/admin/add-recruiter/', views.add_recruiter, name='add-recruiter'),
 
 
 

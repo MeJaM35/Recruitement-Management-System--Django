@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import ModelForm
-from .models import User, Applicant, Edu, Exp, Organization
+from .models import User, Applicant, Edu, Exp, Organization, Recruiter
 from django.contrib.auth.forms import UserCreationForm
 
 
@@ -47,4 +47,11 @@ class AdminForm(UserCreationForm):
     class Meta:
         model = User
         fields = ['first_name', 'last_name', 'password1', 'password2']
+
+
+class RecruiterForm(UserCreationForm):
+    
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'username', 'email', 'phone', 'password1', 'password2']
 

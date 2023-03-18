@@ -1,11 +1,89 @@
-import email
+from django.core.mail import send_mail
 from django.shortcuts import render, redirect
-from .models import User, Applicant, Skill, Edu, Exp
-from .forms import UserSignUpForm, ApplicantForm, ProfileForm, EduForm, ExpForm
+from .models import User, Applicant, Skill, Edu, Exp, Organization, Recruiter
+from .forms import UserSignUpForm, ApplicantForm, ProfileForm, EduForm, ExpForm, OrgForm, AdminForm, RecruiterForm
 from django.contrib import messages
 from django.contrib.auth import login, logout , authenticate
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect 
+
+
+
+
+
+def register_org(request):
+    if request.user.is_authenticated:
+        return redirect('home')
+    form = OrgForm(request.POST)
+    if request.method == 'POST':
+        if form.is_valid():
+            org = form.save()
+            return redirect('register-admin', org.id)
+
+    context = {
+        'form' : form,
+    }
+
+    return render(request, 'base/org_create.html', context)
+
+
+def register_admin(request,pk):
+    form = AdminForm(request.POST)
+    if request.user.is_authenticated:
+        return redirect('home')
+    org = Organization.objects.get(id=pk)
+    if form.is_valid():
+            user = form.save(commit=False)
+            user.role = 'admin'
+            user.email = org.email
+            user.username = org.name+"_admin"
+            user.save()
+            org.admin = user
+            org.is_activated = True
+            org.save()
+            login(request, user)
+            return redirect('home')
+            
+
+    context = {
+       'form': form,
+    }
+
+    return render(request, 'base/admin-register.html', context)
+
+
+@login_required(login_url='login')
+def add_recruiter(request):
+    Org = Organization.objects.get(admin=request.user)
+    if request.user.role == 'admin':
+        form = RecruiterForm(request.POST)
+        if request.method == 'POST':        # For 'POST' request
+            form = RecruiterForm(request.POST)
+            if form.is_valid():
+                rec = form.save(commit=False)
+                rec.role = 'Applicant'
+                rec.save()
+                recu = Recruiter.objects.create(
+                    User = rec,
+                    role = 'recruiter',
+
+                )
+                Org.recruiters.add(recu)
+                send_mail(
+    f'Login to your Recruiter Acc at {Org}',
+    f'Your Username = email. this email, password = {request.POST.get("password1")}',
+    'mj@sertibots.com',
+    [f'{rec.email}'],
+)
+                redirect('home')
+
+    context  = {
+        'form': form,
+    }
+
+    return render(request, 'base/add-recruiter.html', context)
+
+
 
 
 
@@ -16,12 +94,12 @@ def register(request):
         form = UserSignUpForm(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
-            user.is_Applicant = True
+            user.role = 'Applicant'
             user.save()
             login(request, user)
             messages.success(
                 request, f'Your account has been created! You are now logged in!')
-            if user.is_Applicant:
+            if user.role == 'Applicant':
                 return redirect('applicant-details')
         else:
             form = UserSignUpForm(request.POST)
@@ -33,6 +111,10 @@ def register(request):
         'form' : form,
     }
     return render(request, 'base/register.html', context)
+
+
+
+        
     
 
 
@@ -202,7 +284,11 @@ def logoutUser(request):
     return redirect('home')
 
 def home(request):
-    return render(request, 'base/home.html', context={}) 
+    user = request.user
+    context = {
+        'user': user,
+    }
+    return render(request, 'base/home.html', context) 
 # Create your views here.
 
 def contact(request):
