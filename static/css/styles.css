@@ -424,7 +424,7 @@ padding-bottom: -10px;
   object-fit: cover;
   display: block;
   margin: 0 auto;
-  margin-top: 80px; /* Ensures the image fills the container without distortion */
+   /* Ensures the image fills the container without distortion */
  
 }
 
@@ -444,4 +444,72 @@ padding-bottom: -10px;
   margin: 0 auto;
 }
 
+.profile-bbl{
+  margin-top: 20px;
+  margin-left: 20px;
+  margin-right: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 30px;
+  position: relative;
+  padding-bottom:20px;
+  
+}
+
+.f1ff{
+  background-color: #f1ffff;
+}
+
+.eee{
+  background-color: #eeeeee;
+}
+
+
+.edit-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 5px;
+}
+
+@media screen and (max-width: 768px) {
+  .edit-btn {
+    position: static;
+    display: block;
+    text-align: right;
+    margin-top: 10px;
+    padding-right: 10px;
+  }
+}
+
+.bbl{
+  margin-left: 10px;
+  margin-bottom: 10px;
+  padding: 10px;
+  background-color: #faedca;
+  width: fit-content;
+  display: inline-block;
+
+}
+
+.bbl-lg {
+  margin-left: 10px;
+  margin-bottom: 10px;
+  padding: 10px;
+  background-color: #faedca;
+
+}
+
+@media (max-width: 768px) {
+  .bbl-lg {
+    float: none; /* remove the float for smaller screens */
+    margin: 10px auto; /* center the element horizontally */
+    width: 90%; /* make the element full width on smaller screens */
+  }
+}
+
+.fl{
+  text-align: right ;
+
+}
 
