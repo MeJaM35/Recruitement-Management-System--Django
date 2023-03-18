@@ -143,6 +143,100 @@ form input[type="submit"]:hover{
 }
 
 /* 
+umesh login css */
+
+.wrapper-login {
+  max-width: 350px;
+  min-height: 500px;
+  margin: 80px auto;
+  padding: 40px 30px 30px 30px;
+  background-color: #ecf0f3;
+  border-radius: 15px;
+  box-shadow: 13px 13px 20px #cbced1, -13px -13px 20px #fff;
+}
+
+.wrapper-login .name {
+  font-weight: 600;
+  font-size: 1.4rem;
+  letter-spacing: 1.3px;
+  padding-left: 10px;
+  color: #555;
+}
+
+.wrapper-login .form-field input {
+  width: 100%;
+  display: block;
+  border: none;
+  outline: none;
+  background: none;
+  font-size: 1.2rem;
+  color: #666;
+  padding: 10px 15px 10px 10px;
+  /* border: 1px solid red; */
+}
+
+.wrapper-login .form-field {
+  padding-left: 10px;
+  margin-bottom: 20px;
+  border-radius: 20px;
+  box-shadow: inset 8px 8px 8px #cbced1, inset -8px -8px 8px #fff;
+}
+
+.wrapper-login .form-field .fas {
+  color: #555;
+}
+
+.wrapper-login .btn {
+  box-shadow: none;
+  width: 100%;
+  height: 40px;
+  background-color: #03A9F4;
+  color: #fff;
+  border-radius: 25px;
+  box-shadow: 3px 3px 3px #b1b1b1,
+      -3px -3px 3px #fff;
+  letter-spacing: 1.3px;
+}
+
+.wrapper-login .btn:hover {
+  background-color: #039BE5;
+}
+
+.wrapper-login a {
+  text-decoration: none;
+  font-size: 0.8rem;
+  color: #03A9F4;
+}
+
+.wrapper-login a:hover {
+  color: #039BE5;
+}
+
+@media(max-width: 380px) {
+  .wrapper-login {
+      margin: 30px 20px;
+      padding: 40px 15px 15px 15px;
+  }
+}
+
+
+.logo-in {
+  width: 80px;
+  margin: auto;
+}
+
+.logo-in img {
+  width: 100%;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 50%;
+  box-shadow: 0px 0px 3px #5f5f5f,
+      0px 0px 0px 5px #ecf0f3,
+      8px 8px 15px #a7aaa7,
+      -8px -8px 15px #fff;
+}
+
+/* 
 meet css */
 
 
@@ -226,3 +320,95 @@ mix-blend-mode: darken;
 .menu-trigger:checked + label + .dropdown-menu {
   display: block;
 }
+
+.subheadings{
+  font-family: 'Poppins', sans-serif;
+font-size: 30px;
+padding-bottom: -10px;
+}
+
+.sub-sub{
+  font-family: 'Poppins';
+  font-size:25px;
+}
+
+.job-card-description {
+  white-space: nowrap;
+  overflow: hidden;
+ 
+}
+
+.vertical-box {
+  background-color: #f1ffff;
+  padding-top: 10px;
+  margin-left: 20px;
+  padding-left: 10px;
+  margin-right: 20px;
+  padding-right: 10px;
+  margin-top: 50px;
+  padding-bottom: 20px;
+  float: left;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch; /* enables smooth scrolling on mobile devices */
+  -ms-overflow-style: none; /* hides scrollbar on IE and Edge */
+  scrollbar-width: none; /* hides scrollbar on Firefox */
+}
+
+.vertical-box::-webkit-scrollbar {
+  display: none; /* hides scrollbar on Chrome and Safari */
+}
+
+@media screen and (max-width: 768px) {
+  .vertical-box {
+    width: 100%;
+    height: auto;
+    margin: 20px 0;
+    padding: 10px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+.job-cards {
+  height: 242px;
+  width: 387px;
+  margin-top: 20px;
+  margin-left: 20px;
+  margin-bottom: 20px;
+  padding-left: 20px;
+  padding-top: 10px;
+  display: inline-block;
+  background-color: #eeeeee;
+  white-space: normal;
+}
+
+.fake-btn{
+  background-color: #0046C8;
+  width:100px;
+  height:40px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  margin-top: 20px;
+
+
+}
+
+.fake-btn a{
+  color: white !important;
+  text-decoration: none !important;;
+}
+
+
+/* Hide the scrollbar */
+
+
+
+
+.bdy{
+  background-color: #ffffff;
+}
+
+
