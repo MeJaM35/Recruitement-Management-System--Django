@@ -249,11 +249,14 @@ meet css */
   font-family: 'Poppins';
  
   font-size: 34px;
-  /* width: 606px;
-  height: 74px; */
   background-color: #f1ffff;
   border-width: 0px;
   padding-right: 5px;
+}
+
+.search input{
+  background-color: #f1ffff;
+  padding-left: 5px;
 }
 
 .no-border{
@@ -702,6 +705,15 @@ min-height: 1080px;
   max-height: 100%;
 }
 
+.reg-bbl {
+  width: 990px;
+  height: 755px;
+  background-color: #ffffff;
+  margin: 0 auto;
+  max-width: 100%;
+  max-height: 100%;
+}
+
 .align-vert{
   display: flex;
   align-items: center;
@@ -759,6 +771,33 @@ min-height: 1080px;
   }
 }
 
+.logo-reg a img {
+  width: 298.33px;
+  height: 60px;
+}
+
+.logo-reg {
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top: 35px;
+}
+
+.logo-reg h1 {
+  text-align: center;
+  margin-top: 5%;
+}
+
+
+@media screen and (max-width: 768px) {
+  .logo-reg {
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+}
+
 .input-f {
   height: 50px;
   margin-left: 12%;
@@ -771,7 +810,7 @@ min-height: 1080px;
 
 .rl-btn{
   background-color: #0046C8;
-  width:100px;
+  width:fit-content;
   height:40px;
   margin-left: auto;
   margin-right: auto;
@@ -779,6 +818,8 @@ min-height: 1080px;
   margin-top: 50px;
   color: #ffffff;
   border: none !important;
+  padding-right:10px;
+  padding-left:10px;
 }
 
 .btn-cnt{
@@ -792,6 +833,19 @@ min-height: 1080px;
 .btn-cnt p{
   margin-top: 20px;
 }
+
+.reg-form input[type="text"], input[type="email"], input[type="password"] {
+  height: 50px;
+  margin-left: 12%;
+  margin-right: 12%;
+  margin-bottom: 10px;
+  margin-top: 20px;
+  font-size: 25px;
+  border-radius:25px;
+  font-family: 'Poppins', sans-serif;
+}
+
+
 
 
 
