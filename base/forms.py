@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import ModelForm
-from .models import User, Applicant, Edu, Exp, Organization, Recruiter
+from .models import User, Applicant, Edu, Exp, Organization, Recruiter, Job, Skill
 from django.contrib.auth.forms import UserCreationForm
 
 
@@ -51,6 +51,12 @@ class OrgForm(ModelForm):
         model = Organization
         fields = ['name', 'email', 'website'  ]
 
+        widgets = {
+            'name': forms.TextInput(attrs={'placeholder': 'Organization Name'}),
+            'website': forms.TextInput(attrs={'placeholder': 'Website'}),
+            'email': forms.EmailInput(attrs={'placeholder': 'Email'}),
+        }
+
 
 class AdminForm(UserCreationForm):
     
@@ -58,10 +64,39 @@ class AdminForm(UserCreationForm):
         model = User
         fields = ['first_name', 'last_name', 'password1', 'password2']
 
+        widgets = {
+            
+            'first_name': forms.TextInput(attrs={'placeholder': 'Fir Name'}),
+            'last_name': forms.TextInput(attrs={'placeholder': 'Last Name'}),
+            
+            'password1': forms.PasswordInput(attrs={'placeholder': 'Password'}),
+            'password2': forms.PasswordInput(attrs={'placeholder': 'Confirm Password'}),
+        }
+
 
 class RecruiterForm(UserCreationForm):
     
     class Meta:
         model = User
         fields = ['first_name', 'last_name', 'username', 'email', 'phone', 'password1', 'password2']
+
+
+class JobForm(ModelForm):
+    class Meta:
+        model = Job
+        fields = ['position', 'start_date', 'pay_range', 'description', 'skills_req', 'edu_req', 'exp_req'  ]
+
+        widgets = {
+            'position': forms.TextInput(attrs={'placeholder': 'Position'}),
+            'stat_date': forms.DateInput(attrs={
+                'type': 'date', 'placeholder': 'yyyy-mm-dd',
+                'class': 'form-control'
+                }),
+            'pay_range': forms.NumberInput(attrs={'placeholder': 'eg. 10000'}),
+            'description': forms.Textarea(attrs={'placeholder': 'description here'}),
+            # 'skills_req': forms.SelectMultiple(),
+            # 'edu_req': forms.SelectMultiple(),
+            # 'exp_req': forms.SelectMultiple(),
+
+        }
 

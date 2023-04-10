@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from datetime import datetime
 
 
 ROLE_CHOICES = (
@@ -7,6 +8,8 @@ ROLE_CHOICES = (
     ('recruiter', 'recruiter'),
     ('applicant', 'applicant'),
 )
+
+
 
 class User(AbstractUser):
     pfp = models.ImageField(upload_to='pfps', null=True, blank=True, default='user-regular.svg')
@@ -44,6 +47,9 @@ class Exp(models.Model):
         end_date = models.DateField(null=True)
         skills = models.ManyToManyField(Skill, blank=True)
 
+        def __str__(self):
+            return str(self.role)
+
 class Edu(models.Model):
         degree = models.CharField(max_length=20, null=True)
         inst = models.CharField(max_length=20, null=True)
@@ -52,6 +58,9 @@ class Edu(models.Model):
         skills = models.ManyToManyField(Skill, blank=True)
         grade = models.IntegerField(null=True, blank=True)
         credentials = models.URLField(blank=True)
+
+        def __str__(self):
+            return str(self.degree)
 
 
 class Applicant(models.Model):
@@ -66,7 +75,7 @@ class Applicant(models.Model):
     edu = models.ManyToManyField(Edu, blank=True)
 
     def __str__(self):
-        return self.User.username
+        return str(self.User.username)
     
 
 
@@ -76,11 +85,10 @@ class Applicant(models.Model):
 
 
 class Recruiter(models.Model):
-    User = models.ForeignKey(User, null=True, on_delete= models.CASCADE)
+    User = models.OneToOneField(User, null=True, on_delete= models.CASCADE, related_name='recruiters')
     role = models.CharField(max_length=50, null=True)
 
-    def __str__(self):
-        return 'r_'+self.User.username
+
 
 class Organization(models.Model):
     name = models.CharField(max_length=50, null=True)
@@ -92,16 +100,23 @@ class Organization(models.Model):
     activated = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.name
+         return str(self.name)
 
 class Job(models.Model):
     Org = models.ForeignKey(Organization, related_name='org', on_delete=models.CASCADE)
     Recruiter = models.ForeignKey(Recruiter, related_name='recruiter', on_delete=models.CASCADE)
     position = models.CharField(max_length=20, null=True)
     created = models.DateTimeField(auto_now_add=True)
-    start_date = models.DateField()
+    start_date = models.DateField(default=datetime.now())
     pay_range = models.IntegerField()
     description = models.TextField(null=True)
+    skills_req = models.CharField(max_length=50, blank=True, null = True)
+    exp_req = models.CharField(max_length=50, blank=True, null = True)
+    edu_req = models.CharField(max_length=50, blank=True, null=True)
+    is_active = models.BooleanField(default= True)
+
+    def __str__(self):
+            return str(self.position)
 
 
 

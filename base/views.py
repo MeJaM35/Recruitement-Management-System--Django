@@ -1,11 +1,13 @@
 from django.core.mail import send_mail
 from django.shortcuts import render, redirect
-from .models import User, Applicant, Skill, Edu, Exp, Organization, Recruiter
-from .forms import UserSignUpForm, ApplicantForm, ProfileForm, EduForm, ExpForm, OrgForm, AdminForm, RecruiterForm
+from .models import User, Applicant, Skill, Edu, Exp, Organization, Recruiter, Job
+from .forms import UserSignUpForm, ApplicantForm, ProfileForm, EduForm, ExpForm, OrgForm, AdminForm, RecruiterForm, JobForm
 from django.contrib import messages
 from django.contrib.auth import login, logout , authenticate
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect 
+from django.core.mail import EmailMessage, get_connection
+
 
 
 
@@ -61,7 +63,7 @@ def add_recruiter(request):
             form = RecruiterForm(request.POST)
             if form.is_valid():
                 rec = form.save(commit=False)
-                rec.role = 'Applicant'
+                rec.role = 'recruiter'
                 rec.save()
                 recu = Recruiter.objects.create(
                     User = rec,
@@ -69,12 +71,18 @@ def add_recruiter(request):
 
                 )
                 Org.recruiters.add(recu)
-                send_mail(
-    f'Login to your Recruiter Acc at {Org}',
-    f'Your Username = email. this email, password = {request.POST.get("password1")}',
-    'mj@sertibots.com',
-    [f'{rec.email}'],
-)
+                
+                # connection = get_connection()
+                # with connection as connection:
+
+                #     message = '''
+                #             Hey {rec.User.username}, here's your {rec.User.org} Recruiter
+                #             Use your email with password: {request.POST.get('password1')}
+                #             '''
+                #     Email = EmailMessage('Heres your email',message,'mj@sertibots.com',rec.email,connection=connection)
+                #     Email.send()
+                #     connection.close()
+                
                 redirect('home')
 
     context  = {
@@ -94,13 +102,13 @@ def register(request):
         form = UserSignUpForm(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
-            user.role = 'Applicant'
+            user.role = 'applicant'
             user.save()
             login(request, user)
             messages.success(
                 request, f'Your account has been created! You are now logged in!')
-            if user.role == 'Applicant':
-                return redirect('applicant-details')
+            if user.role == 'applicant':
+                return redirect('applicant-edit')
         else:
             form = UserSignUpForm(request.POST)
             messages.error(request, 'An error occurred during registration')
@@ -248,6 +256,7 @@ def applicant_edit(request):
 
     context = {
         'form': form,
+        'User': User,
     }
     return render(request, 'base/applicant-edit.html', context)
           
@@ -285,10 +294,51 @@ def logoutUser(request):
 
 def home(request):
     user = request.user
+    if user.Role == 'applicant':
+        job = Job.objects.all()
+    if user.Role == 'recruiter':
+        job = Job.objects.filter(user = user)
+    
     context = {
         'user': user,
+        'job' : job,
     }
     return render(request, 'base/home.html', context) 
+
+
+
+
+@login_required(login_url='login')
+def addJob(request):
+    User = request.user
+    print(User.recruiters.org)
+    form = JobForm()
+
+    if request.method == 'POST':
+        # print('post request')
+        # if form.is_valid():
+            print('post request')
+            job = Job.objects.create(
+                Org = Organization.objects.get(recruiters = User.recruiters),
+               Recruiter = User.recruiters,
+                position = request.POST.get('position'),
+                start_date = request.POST.get('start_date'),
+                pay_range = request.POST.get('pay_range'),
+                description = request.POST.get('description'),
+               
+
+
+            )
+            
+            
+            return redirect('home')
+
+    context = {
+        'form': form,
+    }
+
+
+    return render(request, 'base/add-job.html', context)
 # Create your views here.
 
 def contact(request):

@@ -38,19 +38,22 @@
 
 {% endif %}
 
+{% if user.role == 'applicant' %}
+
 <div class="cont-custom">
 
     <div class="vertical-box rounded25">
 
         <div class="subheadings"> Hiring Now <i class="fa-solid fa-caret-right"></i></div>
 
+{% for j in job %}
         <div class=" rounded25 job-cards">
             <div class="subheadings">
-                Developer
+                {{j.position}}
             </div>
-            <div class="sub-sub">Facebook </div>
+            <div class="sub-sub">{{j.Org.name}} </div>
 
-            <div class="job-card-description"> Lorem ipsum dolor sit amet consectetur adipisicing elit. <br> Sapiente, dolorem!</div>
+            <div class="job-card-description"> {{j.description}}</div>
             <div class="float-right">
             <div class="fake-btn rounded25 sub-sub">
                 <a href="#"> Apply </a>
@@ -58,62 +61,9 @@
         </div>
         </div>
 
-        <div class=" rounded25 job-cards">
-            <div class="subheadings">
-                Developer
-            </div>
-            <div class="sub-sub">Facebook </div>
+        {% endfor %}
 
-            <div class="job-card-description"> Lorem ipsum dolor sit amet consectetur adipisicing elit. <br> Sapiente, dolorem!</div>
-            <div class="float-right">
-            <div class="fake-btn rounded25 sub-sub">
-                <a href="#"> Apply </a>
-            </div>
-        </div>
-            
-        </div>
-
-        <div class=" rounded25 job-cards">
-            <div class="subheadings">
-                Developer
-            </div>
-            <div class="sub-sub">Facebook </div>
-
-            <div class="job-card-description"> Lorem ipsum dolor sit amet consectetur adipisicing elit. <br> Sapiente, dolorem!</div>
-            <div class="float-right">
-            <div class="fake-btn rounded25 sub-sub">
-                <a href="#"> Apply </a>
-            </div>
-        </div>
-        </div>
-
-        <div class=" rounded25 job-cards">
-            <div class="subheadings">
-                Developer
-            </div>
-            <div class="sub-sub">Facebook </div>
-
-            <div class="job-card-description"> Lorem ipsum dolor sit amet consectetur adipisicing elit. <br> Sapiente, dolorem!</div>
-            <div class="float-right">
-            <div class="fake-btn rounded25 sub-sub">
-                <a href="#"> Apply </a>
-            </div>
-        </div>
-        </div>
-
-        <div class=" rounded25 job-cards">
-            <div class="subheadings">
-                Developer
-            </div>
-            <div class="sub-sub">Facebook </div>
-
-            <div class="job-card-description"> Lorem ipsum dolor sit amet consectetur adipisicing elit. <br> Sapiente, dolorem!</div>
-            <div class="float-right">
-            <div class="fake-btn rounded25 sub-sub">
-                <a href="#"> Apply </a>
-            </div>
-        </div>
-        </div>
+    
 
 
     </div>
@@ -122,13 +72,14 @@
 
         <div class="subheadings"> For You! <i class="fa-solid fa-caret-right"></i></div>
 
+        {% for j in job %}
         <div class=" rounded25 job-cards">
             <div class="subheadings">
-                Developer
+                {{j.position}}
             </div>
-            <div class="sub-sub">Facebook </div>
+            <div class="sub-sub">{{j.Org.name}} </div>
 
-            <div class="job-card-description"> Lorem ipsum dolor sit amet consectetur adipisicing elit. <br> Sapiente, dolorem!</div>
+            <div class="job-card-description"> {{j.description}}</div>
             <div class="float-right">
             <div class="fake-btn rounded25 sub-sub">
                 <a href="#"> Apply </a>
@@ -136,64 +87,48 @@
         </div>
         </div>
 
-        <div class=" rounded25 job-cards">
-            <div class="subheadings">
-                Developer
-            </div>
-            <div class="sub-sub">Facebook </div>
+        {% endfor %}
 
-            <div class="job-card-description"> Lorem ipsum dolor sit amet consectetur adipisicing elit. <br> Sapiente, dolorem!</div>
-            <div class="float-right">
-            <div class="fake-btn rounded25 sub-sub">
-                <a href="#"> Apply </a>
-            </div>
-        </div>
-        </div>
-
-        <div class=" rounded25 job-cards">
-            <div class="subheadings">
-                Developer
-            </div>
-            <div class="sub-sub">Facebook </div>
-
-            <div class="job-card-description"> Lorem ipsum dolor sit amet consectetur adipisicing elit. <br> Sapiente, dolorem!</div>
-            <div class="float-right">
-            <div class="fake-btn rounded25 sub-sub">
-                <a href="#"> Apply </a>
-            </div>
-        </div>
-        </div>
-
-        <div class=" rounded25 job-cards">
-            <div class="subheadings">
-                Developer
-            </div>
-            <div class="sub-sub">Facebook </div>
-
-            <div class="job-card-description"> Lorem ipsum dolor sit amet consectetur adipisicing elit. <br> Sapiente, dolorem!</div>
-            <div class="float-right">
-            <div class="fake-btn rounded25 sub-sub">
-                <a href="#"> Apply </a>
-            </div>
-        </div>
-        </div>
-
-        <div class=" rounded25 job-cards">
-            <div class="subheadings">
-                Developer
-            </div>
-            <div class="sub-sub">Facebook </div>
-
-            <div class="job-card-description"> Lorem ipsum dolor sit amet consectetur adipisicing elit. <br> Sapiente, dolorem!</div>
-            <div class="float-right">
-            <div class="fake-btn rounded25 sub-sub">
-                <a href="#"> Apply </a>
-            </div>
-        </div>
-        </div>
 
         
     </div>
+
+    {% endif %}
+
+
+    {% if user.role == 'recruiter' %}
+
+    <div class=" fake-btn rounded25 align-items-center">
+<a  href="{% url 'add-job' %}">
+    Add Job
+</a>
+
+</div>
+
+<div class="vertical-box rounded25">
+
+    <div class="subheadings"> Active <i class="fa-solid fa-caret-right"></i></div>
+
+    {% for j in job %}
+        <div class=" rounded25 job-cards">
+            <div class="subheadings">
+                {{j.position}}
+            </div>
+            <div class="sub-sub">{{j.Org.name}} </div>
+
+            <div class="job-card-description"> {{j.description}}</div>
+            <div class="float-right">
+            <div class="fake-btn rounded25 sub-sub">
+                <a href="#"> Close </a>
+            </div>
+        </div>
+        </div>
+
+        {% endfor %}
+
+
+</div>
+    {% endif %}
    
     </div>
 
@@ -203,4 +138,6 @@
   
   
   
-{% endblock %}
+
+
+    {% endblock %}

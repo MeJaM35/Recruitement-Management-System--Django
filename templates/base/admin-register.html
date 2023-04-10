@@ -3,19 +3,64 @@
 
 {% block content %}
 
-<div class="container-fluid">
+{% load static %}
 
-<h1> Register Admin </h1>
 
-    <form method='POST'>
+<link rel="stylesheet" href="{% static 'css/styles.css' %}" type="text/css">
+
+<div class="container-fluid bg-grade">
+
+    <div class="fix-top-left"> <a href="{{ request.META.HTTP_REFERER }}"> <i class="fa-solid fa-angle-left"></i> back </a></div>
+
+    <div class="align-vert">
+
+
+        <div class="rounded25 reg-bbl">
+
+            <div class="logo-reg">
+
+                <a href="{% url 'home' %}">
+                    <img
+                      src="{% static 'assets/logo.svg' %}"
+                     
+                    />
+                  </a>
+                
+    
+                <h1> Admin </h1>
+
+            </div>
+
+    <form class='admin-form' method='POST'>
         {% csrf_token %}
-        {{form.as_p}}
+        <table>
+            <tr>
+              <td>{{form.first_name}}</td>
+              <td>{{form.last_name}}</td>
+            </tr>
+            <tr>
+              <td>{{form.password1}}</td>
+              <td>{{form.password2}}</td>
+            </tr>
+          </table>
 
-        <button type='submit' class="btn btn-primary"> Register </button>
-    </form>
+        <div class="btn-cnt">
+            
+            <button class="rounded25 sub-sub rl-btn"> Register </button>
 
- 
+
+        
+    </div>
+   
+        
+
+
 
 
 </div>
 {% endblock %}
+
+
+   
+
+

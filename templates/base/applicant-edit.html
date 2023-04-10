@@ -5,9 +5,42 @@
 
 <div class="container-fluid">
 
+    {% load static %}
+
     {% include 'header.html' %}
 
-<h1> Edit Details </h1>
+
+
+<div class="pfp-div ">
+
+    <a
+                  class="edit-btn nav-link d-flex align-items-center rounded25 eee"
+                 href="{% url 'user-edit' User.id %}"
+                  
+                ><i class="fa-regular fa-pen-to-square"></i></a>
+  
+    <img
+                    src="{{request.user.pfp.url}}"
+                    class="rounded-circle"
+                    loading="lazy"
+                  />
+                  <br>
+  </div>
+                  <div class="username">
+                  <b> {{User.username}} </b>
+               
+                  <br> 
+                  {{User.email}} 
+                  <br> 
+                  {{User.fname}}
+              
+                  {{User.lname}}
+  
+                  
+  
+              </div>
+  
+            </div>
 
 <hr>
 

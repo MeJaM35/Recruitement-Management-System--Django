@@ -22,6 +22,9 @@ urlpatterns = [
     path('organization/admin/add-recruiter/', views.add_recruiter, name='add-recruiter'),
 
 
+    path('organization/recruiter/add-job/', views.addJob, name='add-job'),
+
+
 
     path('contact',views.contact, name='contact'),
    

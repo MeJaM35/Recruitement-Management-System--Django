@@ -1,21 +1,80 @@
 {% extends 'base.html' %}
 
 
+
+
 {% block content %}
 
-<div class="container-fluid">
+{% load static %}
 
-<h1> Register Organization </h1>
+<link rel="stylesheet" href="{% static 'css/styles.css' %}" type="text/css">
 
-    <form method='POST'>
+
+<div class="container-fluid bg-grade">
+
+    <div class="fix-top-left"> <a href="{{ request.META.HTTP_REFERER }}"> <i class="fa-solid fa-angle-left"></i> back </a></div>
+
+    <div class="align-vert">
+
+    <div class="lgn-bbl rounded25">
+
+       
+
+        <div class="logo-lgn">
+
+            <a href="{% url 'home' %}">
+                <img
+                  src="{% static 'assets/logo.svg' %}"
+                 
+                />
+              </a>
+            
+
+            <h1> Organization </h1>
+            <p>  <a href="{% url 'login' %}" > Already Have an account? </a> </p>
+        </div>
+
+        
+
+        
+
+    <form class='reg-form' method='POST'>
         {% csrf_token %}
-        {{form.as_p}}
+        
+        {{form.name}}
+        <br>
+        {{form.email}}
+        <br>
+        {{form.website}}
 
-        <button type='submit' class="btn btn-primary"> Register </button>
+        <div class="btn-cnt">
+            
+                <button class="rounded25 sub-sub rl-btn"> Login </button>
+
+
+            
+        </div>
+        <div class="btn-cnt">
+            
+           
+
+        
+    </div>
+
+        
     </form>
+   
 
-    <a href="{% url 'login' %}"> Have an account? </a>
+
+        
+    </div>
+
+</div>
+
+
 
 
 </div>
 {% endblock %}
+
+
