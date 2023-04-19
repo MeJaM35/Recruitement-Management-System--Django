@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from datetime import datetime
+from phonenumber_field.modelfields  import PhoneNumberField
 
 
 ROLE_CHOICES = (
@@ -9,6 +10,14 @@ ROLE_CHOICES = (
     ('applicant', 'applicant'),
 )
 
+STATUS_CHOICES = (
+    ('not_applied', 'not_applied'),
+    ('applied', 'applied'),
+    ('shortlisted', 'shortlisted'),
+    ('interviewed', 'interviewed'),
+    ('rejected', 'rejected'),
+    ('accepted', 'accepted'),
+)
 
 
 class User(AbstractUser):
@@ -17,7 +26,7 @@ class User(AbstractUser):
     email = models.EmailField(unique=True, null=True)
     fname = models.CharField(max_length=20, null=True)
     lname = models.CharField(max_length=20, null=True)
-    phone = models.BigIntegerField(null=True)
+    phone = models.PhoneNumberField(null=True)
     role = models.CharField(max_length = 50, choices = ROLE_CHOICES, default='applicant')
     #bio = models.TextField(blank=True, null=True)
     #pronouns = models.CharField(max_length=10, null=True, blank=True)
@@ -117,6 +126,13 @@ class Job(models.Model):
 
     def __str__(self):
             return str(self.position)
+    
+
+class Application(models.Model):
+    applicant = models.ForeignKey(Applicant, null=True, blank=True, related_name='app', on_delete=models.SET_NULL)
+    job = models.ForeignKey(Job, null=True, blank=True, related_name='app', on_delete=models.SET_NULL)
+    status = models.CharField(max_length = 50, choices = STATUS_CHOICES, default='not_applied')
+
 
 
 

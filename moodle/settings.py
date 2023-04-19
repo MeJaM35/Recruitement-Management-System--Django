@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-8o55pgv*k(ie-5nvw_t^4k&sf25waxki4*56ba0rrdoj*c57de
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '2433-120-138-111-68.ngrok-free.app']
 
 
 # Application definition
@@ -41,6 +41,9 @@ INSTALLED_APPS = [
     #user dependency
     'crispy_forms',
     'fontawesomefree',
+    'channels',
+    'daphne',
+    
 
     #'organizations',
 
@@ -49,6 +52,10 @@ INSTALLED_APPS = [
     'base',
     
 ]
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap5'
+
+CRISPY_TEMPLATE_PACK = 'bootstrap5'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -81,13 +88,28 @@ TEMPLATES = [
 WSGI_APPLICATION = 'moodle.wsgi.application'
 
 
+ASGI_APPLICATION = 'moodle.asgi.application'
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("127.0.0.1", 6379)],
+        },
+    },
+}
+
+
+
+
+
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'moodle',
+        'NAME': 'rms',
         'USER': 'root',
         'PASSWORD': 'meet2004',
         'HOST': 'localhost',
@@ -141,6 +163,11 @@ STATICFILES_DIRS = [
     BASE_DIR, "static"
 ]
 
+GOOGLE_API_KEY = '734004312381-livt7drmj3oj70poggr86v20rmpsalea.apps.googleusercontent.com'
+
+GOOGLE_API_SECRET = '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'
+
+
 
 EMAIL_HOST              = 'mail.sertibots.com'
 
@@ -157,6 +184,12 @@ EMAIL_USE_SSL           = False
 
 
 MEDIA_ROOT = BASE_DIR / 'media'
+
+
+CSRF_TRUSTED_ORIGINS = ['https://2433-120-138-111-68.ngrok-free.app',
+    
+    # add any other domains that should be allowed to make requests to your Django app
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field

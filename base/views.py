@@ -1,12 +1,13 @@
 from django.core.mail import send_mail
 from django.shortcuts import render, redirect
-from .models import User, Applicant, Skill, Edu, Exp, Organization, Recruiter, Job
+from .models import User, Applicant, Skill, Edu, Exp, Organization, Recruiter, Job, Application
 from .forms import UserSignUpForm, ApplicantForm, ProfileForm, EduForm, ExpForm, OrgForm, AdminForm, RecruiterForm, JobForm
 from django.contrib import messages
 from django.contrib.auth import login, logout , authenticate
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect 
 from django.core.mail import EmailMessage, get_connection
+from datetime import datetime
 
 
 
@@ -127,8 +128,8 @@ def register(request):
 
 
 @login_required(login_url='login')
-def view_profile(request):
-    User = request.user
+def view_profile(request, pk):
+    User = User.objects.get(id=pk)
     Skills = Skill.objects.filter(applicant = User.applicant)
     edu = Edu.objects.filter(applicant = User.applicant)
     exp = Exp.objects.filter(applicant = User.applicant)
@@ -196,9 +197,7 @@ def add_skills(request):
     User =request.user
     Skills = Skill.objects.filter(applicant = User.applicant)
     if request.method == 'POST':
-        skill = Skill.objects.create(
-            name = request.POST.get('skill'),
-        )
+        skill, created = Skill.objects.get_or_create(name=request.POST.get('name'))
         User.applicant.skills.add(skill)
 
 
@@ -240,7 +239,7 @@ def applicant_edit(request):
     User = request.user
 
     if request.method == 'POST':
-        Applicant.objects.update_or_create(
+        applicant, created = Applicant.objects.update_or_create(
 
             User = User,
             about = request.POST.get('about'),
@@ -294,16 +293,38 @@ def logoutUser(request):
 
 def home(request):
     user = request.user
-    if user.Role == 'applicant':
+    if user.is_authenticated:
+        if user.role == 'applicant':
+            job = Job.objects.all()
+        if user.role == 'recruiter':
+            job = Job.objects.filter(Recruiter = user.recruiters)
+            
+    else:
         job = Job.objects.all()
-    if user.Role == 'recruiter':
-        job = Job.objects.filter(user = user)
+
     
     context = {
         'user': user,
         'job' : job,
     }
     return render(request, 'base/home.html', context) 
+
+
+
+
+@login_required(login_url='login')
+def jobdetails(request,pk):
+    user = request.user
+    if user.role == 'recruiter':
+        job = Job.objects.get(id = pk)
+        apps = Application.objects.filter(job=job)
+
+    context = {
+        'apps' : apps,
+    }
+
+    return render(request, 'base/job-details.html', context)
+
 
 
 
@@ -341,6 +362,12 @@ def addJob(request):
     return render(request, 'base/add-job.html', context)
 # Create your views here.
 
+def chat(request):
+    return render(request, "base/chat.html")
+
+def room(request, room_name):
+    return render(request, "base/chat-room.html", {"room_name": room_name})
+
 def contact(request):
    
     return render(request, 'base/contact.html', context={}) 
@@ -348,6 +375,31 @@ def contact(request):
 def about(request):
     return render(request, 'base/about.html', context={}) 
 
+
+
+@login_required(login_url='login')
 def notif(request):
+    user = request.user
+    context = {}
+    if user.role == 'applicant':
+        App = Application.objects.filter(applicant = user.applicant)
+        context['app'] = App
+
+    
    
-    return render(request, 'base/notif.html', context={})
+    return render(request, 'base/notif.html', context)
+
+
+
+@login_required(login_url='login')
+def Apply(request, pk):
+    user = request.user
+    job = Job.objects.get(id=pk)
+    if user.role == 'applicant':
+        application = Application.objects.create(
+            job = job,
+            applicant = user.applicant,
+            status = 'applied',
+        )
+        return redirect('notif')
+    return render(request, 'base/apply.html')

@@ -15,11 +15,15 @@
 
 <div class="pfp-div ">
 
+  {% if request.user == User %}
+
   <a
                 class="edit-btn nav-link d-flex align-items-center rounded25 eee"
                href="{% url 'user-edit' User.id %}"
                 
               ><i class="fa-regular fa-pen-to-square"></i></a>
+
+              {% endif %}
 
   <img
                   src="{{request.user.pfp.url}}"
@@ -53,13 +57,19 @@
 
           <div class="rounded25 f1ff profile-bbl">
 
+
           <div class="pfp-div ">
+
+            {% if request.user == User %}
+
 
             <a
                 class=" edit-btn nav-link d-flex align-items-center rounded25 eee"
                href="{% url 'applicant-edit' %}"
                 
               > <i class="fa-regular fa-pen-to-square"></i></a>
+
+              {% endif %}
 
                 <b> Age:</b> {{User.age}}
 
@@ -78,11 +88,16 @@
 
                   <div class="pfp-div ">
 
+                    {% if request.user == User %}
+
+
                     <a
                 class="edit-btn nav-link d-flex align-items-center rounded25 eee"
                href="{% url 'add-skill' %}"
                 
               > <i class="fa-regular fa-pen-to-square"></i></a>
+
+              {% endif %}
 
 
 <h4> Skills: </h4>
@@ -105,11 +120,16 @@
 
             <div class="pfp-div ">
 
+              {% if request.user == User %}
+
+
               <a
                 class="edit-btn nav-link d-flex align-items-center rounded25 eee"
                href="{% url 'add-edu' %}"
                 
               > <i class="fa-regular fa-pen-to-square"></i></a>
+
+              {% endif %}
 
               
 
@@ -143,11 +163,16 @@
 
   <div class="pfp-div ">
 
+    {% if request.user == User %}
+
+
     <a
       class="edit-btn nav-link d-flex align-items-center rounded25 eee"
      href="{% url 'add-exp' %}"
       
     > <i class="fa-regular fa-pen-to-square"></i></a>
+
+    {% endif %}
 
     
 
