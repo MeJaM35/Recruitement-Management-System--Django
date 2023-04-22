@@ -1,14 +1,34 @@
 {% extends 'base.html' %}
 
-
-
-
 {% block content %}
 
-{% load static %}
+{% include 'header.html' %}
 
-<div class="notq"><a>Sorry,You're not qualified enough!</a></div>
-
-<div class="fix-top-left"> <a href="{{ request.META.HTTP_REFERER }}"> <i class="fa-solid fa-angle-left"></i> back </a></div>
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12 col-md-6 offset-md-3 text-center">
+      <div class="not-qualified mb-4">
+        <h1>Sorry, you're not qualified enough!</h1>
+      </div>
+      <div class="mb-4">
+        <p>We appreciate your interest in this position, but it looks like you don't meet the requirements at this time.</p>
+        <p>Here are some suggestions for courses and certifications that may help you improve your qualifications:</p>
+      </div>
+      <div class="suggestions mb-4 ">
+        <ul class="list-unstyled d-flex flex-wrap justify-content-center">
+          <li><a href="https://www.coursera.org/" class="btn btn-primary mx-2 my-2">Course 1</a></li>
+          <li><a href=" https://www.cisco.com/" class="btn btn-primary mx-2 my-2">Course 2</a></li>
+          <li><a href="https://www.udemy.com/" class="btn btn-primary mx-2 my-2">Course 3</a></li>
+          <li><a href="https://nptel.ac.in/" class="btn btn-secondary mx-2 my-2">Certification 1</a></li>
+          <li><a href="https://nptel.ac.in/" class="btn btn-secondary mx-2 my-2">Certification 2</a></li>
+          <li><a href="https://nptel.ac.in/" class="btn btn-secondary mx-2 my-2">Certification 3</a></li>
+        </ul>
+      </div>
+      <div class="back-link">
+        <a href="{{ request.META.HTTP_REFERER }}"><i class="fas fa-arrow-left mr-2"></i>Back to job listing</a>
+      </div>
+    </div>
+  </div>
+</div>
 
 {% endblock %}

@@ -1040,3 +1040,115 @@ background: rgba(0, 0, 0, 1);
   display: flex;
   flex-direction:row;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.not-qualified {
+  margin-top: 100px;
+}
+
+.not-qualified h1 {
+  font-size: 24px;
+}
+
+.suggestions ul li {
+  display: inline-block;
+}
+
+.suggestions ul li a {
+  border-radius: 25px;
+  padding: 10px 20px;
+  margin: 5px;
+  text-decoration: none;
+}
+
+.suggestions ul li a:hover {
+  transition: all 0.3s ease;
+}
+
+.back-link {
+  margin-top: 20px;
+}
+
+@media only screen and (max-width: 767px) {
+  .not-qualified h1 {
+    font-size: 18px;
+  }
+
+  .suggestions ul li a {
+    font-size: 14px;
+    padding: 8px 16px;
+  }
+
+  .back-link a {
+    font-size: 14px;
+  }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+  .not-qualified h1 {
+    font-size: 20px;
+  }
+
+  .suggestions ul li a {
+    font-size: 16px;
+    padding: 10px 20px;
+  }
+
+  .back-link a {
+    font-size: 16px;
+  }
+}
+
+@media only screen and (min-width: 992px) {
+  .not-qualified h1 {
+    font-size: 24px;
+  }
+
+  .suggestions ul {
+    justify-content: center;
+  }
+
+}
