@@ -373,6 +373,8 @@ padding-bottom: -10px;
   }
 }
 
+
+
 .job-cards {
   height: 242px;
   width: 387px;
@@ -920,3 +922,102 @@ min-height: 1080px;
 
 
 
+
+
+
+
+
+
+.job-card {
+  display: inline-block;
+  margin: 20px;
+  padding: 20px;
+  background-color: #eeeeee;
+  border-radius: 25px;
+}
+
+.job-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.job-position {
+  font-weight: bold;
+  font-size: 24px;
+}
+
+.job-reqs {
+  display: flex;
+  flex-direction: column;
+}
+
+.edu-req {
+  margin-right: 10px;
+}
+
+.exp-req {
+  margin-right: 10px;
+}
+
+.job-card-body {
+  margin-top: 20px;
+}
+
+.org-name {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.job-description-header {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.job-description {
+  white-space: pre-line;
+}
+
+.skill-header {
+  font-weight: bold;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.skill-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.skill-row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.skill {
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+
+.skill-btn {
+  background-color: #dddddd;
+  border: none;
+  border-radius: 20px;
+  padding: 5px 10px;
+}
+
+.apply-btn {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 10px 20px;
+  margin-top: 20px;
+  float: right;
+}
+
+.flex-row{
+  display: flex;
+  flex-direction:row;
+}

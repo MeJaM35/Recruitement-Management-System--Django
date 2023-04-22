@@ -530,3 +530,18 @@ def Apply(request, pk):
         )
         return redirect('notif')
     return render(request, 'base/apply.html')
+
+
+def desc(request,pk):
+    job = Job.objects.get(id=pk)
+    user = request.user
+    skills= Skill.objects.filter(job=job)
+    context = {
+        'job': job,
+        'skills' : skills,
+    }
+
+
+    return render(request, 'base/desc.html', context) 
+
+

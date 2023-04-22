@@ -8,6 +8,7 @@ urlpatterns = [
     path('logout', views.logoutUser, name='logout'),
     path('login', views.loginUser, name='login'),
     path('notifications', views.notif, name='notif'),
+    path('<str:pk>/desc', views.desc, name='desc'),
     
 
     path('applicant/more-details', views.applicant_edit, name='applicant-edit'),
