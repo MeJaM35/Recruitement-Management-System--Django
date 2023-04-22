@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'fontawesomefree',
     'channels',
-    'daphne',
+    
     
 
     #'organizations',
@@ -108,14 +108,11 @@ CHANNEL_LAYERS = {
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'rms',
-        'USER': 'root',
-        'PASSWORD': 'meet2004',
-        'HOST': 'localhost',
-        'PORT': '3306',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
 
 
 # Password validation

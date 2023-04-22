@@ -43,5 +43,7 @@ urlpatterns = [
     path('contact',views.contact, name='contact'),
    
     path('about', views.about, name='about'),
+    path('ERROR', views.ERROR, name='ERROR'),
+
 
 ]

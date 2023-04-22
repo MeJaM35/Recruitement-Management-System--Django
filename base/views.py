@@ -530,3 +530,7 @@ def Apply(request, pk):
         )
         return redirect('notif')
     return render(request, 'base/apply.html')
+
+
+def ERROR(request):
+    return render(request,"base/notq.html")
