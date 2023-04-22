@@ -24,8 +24,15 @@ urlpatterns = [
 
     path('organization/recruiter/add-job/', views.addJob, name='add-job'),
     path('<str:pk>/apply', views.Apply, name='apply'),
+    path('<str:pk>/close', views.closejob, name='close-job'),
+    path('<str:pk>/activate', views.activatejob, name='activate-job'),
     path('<str:pk>/details', views.jobdetails, name='job-details'),
     path('<str:pk>/shortlist', views.shortlist, name='shortlist'),
+    path('<str:pk>/interview', views.interview, name='interview'),
+    path('<str:pk>/accept', views.accept, name='accept'),
+    path('<str:pk>/reject', views.reject, name='reject'),
+
+     path('pdf/<str:pk>/', views.PDFView.as_view(), name='pdf_view'),
 
 
     path('chat', views.chat, name='chat'),

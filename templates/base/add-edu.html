@@ -19,6 +19,10 @@
 
 {% for e in edu %}
 
+<div class="bbl-lg rounded25 eee ">
+
+
+
 {{e.degree}}
 <br>
 {{e.inst}}
@@ -31,16 +35,35 @@
 <br>
 {{e.credentials}}
 <br>
+
+</div>
 {% endfor %}
 
 
 
-<form method='POST'>
+<form class='input-wrapper' method='POST'>
   {% csrf_token %}
 
-  {{form.as_p}}
+  <label for="{{ form.degree.id_for_label }}">Degree:</label>
+  {{ form.degree }}
+  <br>
+  <label for="{{ form.inst.id_for_label }}">Institution:</label>
+  {{ form.inst }}
+  <br>
+  <label for="{{ form.start_date.id_for_label }}">Start Date:</label>
+  {{form.start_date}}
+  <br>
+  <label for="{{ form.end_date.id_for_label }}">End Date:</label>
+ {{form.end_date}}
+  <br>
+  <label for="{{ form.grade.id_for_label }}">Grade:</label>
+  {{ form.grade }}
+  <br>
+  <label for="{{ form.credentials.id_for_label }}">Credentials:</label>
+  {{ form.credentials }}
+  <br>
 
-  <button type='submit' class="btn btn-primary"> Edit </button>
+  <button type='submit' class="rounded25 rl-btn"> Edit </button>
 </form>
 
 

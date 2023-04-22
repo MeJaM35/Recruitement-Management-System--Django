@@ -71,14 +71,16 @@
 
               {% endif %}
 
-                <b> Age:</b> {{User.age}}
+                <b> Age:</b> {{User.applicant.age}} <br>
 
-                <b> Pronouns: </b><i>{{User.pronouns}} </i>
+                <b> Pronouns: </b><i>{{User.applicant.pronouns}} </i>
                 <br>
                 <b> Phone: </b>{{User.phone}}
                 <br>
 
-                <b> About: </b> {{User.applicant.about}} 
+                <b> About: </b> {{User.applicant.about}}  <br>
+
+                <b> <i class="fa-solid fa-location-pin"></i></b> {{User.applicant.location}} 
             
 
                 </div>
@@ -140,14 +142,16 @@
 {% for E in Edu %}
 
 <div class="bbl-lg rounded25 eee ">
-  <div>
+  
 
 <h5>{{E.degree}} </h5>  <div class="fl"><b> Start Date: </b>{{E.start_date}} <br> <b> Start Date: </b> {{E.end_date}} </div>
 
-</div>
+
 
 {{E.inst}}
 
+
+</div>
 
 
 </div>
@@ -173,6 +177,7 @@
     > <i class="fa-regular fa-pen-to-square"></i></a>
 
     {% endif %}
+    
 
     
 
@@ -183,11 +188,11 @@
 {% for e in exp %}
 
 <div class="bbl-lg rounded25 eee ">
-<div>
+
 
 <h5>{{e.role}} </h5>  <div class="fl"><b> Start Date: </b>{{e.start_date}} <br> <b> Start Date: </b> {{e.end_date}} </div>
 
-</div>
+
 
 {{e.company}}
 
@@ -201,6 +206,16 @@
 
 </div>
 </div>
+
+{% if request.user.role == 'recruiter' %}
+
+<div class="fake-btn rounded25 sub-sub">
+
+<a href="{{ request.META.HTTP_REFERER }}"> <i class="fa-solid fa-angle-left"></i> Return </a>
+
+</div>
+
+{% endif %}
 
 
 
@@ -218,4 +233,6 @@
 
 
 </div>
+
+
 {% endblock %}

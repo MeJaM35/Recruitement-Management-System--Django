@@ -10,6 +10,36 @@ from django.core.mail import EmailMessage, get_connection
 from datetime import datetime
 
 
+def convert_cgpa_to_percentage(cgpa):
+    percentage = cgpa * 9.5
+    return percentage
+
+
+from django.http import HttpResponse
+from django.shortcuts import get_object_or_404
+from django.views import View
+from .models import Applicant
+
+class PDFView(View):
+    def get(self, request, pk):
+        # Retrieve the Applicant instance
+        applicant = get_object_or_404(Applicant, id=pk)
+
+        # Retrieve the file path of the resume field
+        resume_file_path = applicant.resume.path
+
+        # Open the resume file in binary mode
+        with open(resume_file_path, 'rb') as resume_file:
+            # Read the file content
+            resume_content = resume_file.read()
+
+            # Create an HttpResponse object with the resume content
+            response = HttpResponse(resume_content, content_type='application/pdf')
+
+            # Add the Content-Disposition header to indicate inline display
+            response['Content-Disposition'] = 'inline; filename=my_resume.pdf'
+
+            return response
 
 
 
@@ -72,6 +102,7 @@ def add_recruiter(request):
 
                 )
                 Org.recruiters.add(recu)
+                return redirect('home')
                 
                 # connection = get_connection()
                 # with connection as connection:
@@ -84,7 +115,7 @@ def add_recruiter(request):
                 #     Email.send()
                 #     connection.close()
                 
-                redirect('home')
+                
 
     context  = {
         'form': form,
@@ -129,13 +160,13 @@ def register(request):
 
 @login_required(login_url='login')
 def view_profile(request, pk):
-    User = User.objects.get(id=pk)
-    Skills = Skill.objects.filter(applicant = User.applicant)
-    edu = Edu.objects.filter(applicant = User.applicant)
-    exp = Exp.objects.filter(applicant = User.applicant)
+    user = User.objects.get(id=pk)
+    Skills = Skill.objects.filter(applicant = user.applicant)
+    edu = Edu.objects.filter(applicant = user.applicant)
+    exp = Exp.objects.filter(applicant = user.applicant)
     
     context = {
-        'User' : User,
+        'User' : user,
         'Skills' : Skills,
         'Edu' : edu,
         'exp': exp,
@@ -154,7 +185,7 @@ def add_edu(request):
        User.applicant.edu.add(edu)
 
 
-       return redirect('view-profile')
+       return redirect('view-profile', User.id)
    
 
         
@@ -178,7 +209,7 @@ def add_exp(request):
        User.applicant.exp.add(exp)
 
 
-       return redirect('view-profile')
+       return redirect('view-profile', User.id)
    
 
         
@@ -201,7 +232,7 @@ def add_skills(request):
         User.applicant.skills.add(skill)
 
 
-        return redirect('view-profile')
+        return redirect('view-profile', User.id)
    
 
         
@@ -221,7 +252,7 @@ def user_edit(request, pk):
         form = ProfileForm(request.POST, request.FILES, instance=user)
         if form.is_valid():
             form.save()
-            return redirect('view-profile')
+            return redirect('view-profile', user.id)
    
 
         
@@ -234,30 +265,32 @@ def user_edit(request, pk):
 
 @login_required(login_url='login')
 def applicant_edit(request):
-
-    form = ApplicantForm()
     User = request.user
 
+    # Get the existing applicant object for the logged-in user
+    try:
+        applicant = Applicant.objects.get(User=User)
+    except Applicant.DoesNotExist:
+        applicant = None
+
     if request.method == 'POST':
-        applicant, created = Applicant.objects.update_or_create(
-
-            User = User,
-            about = request.POST.get('about'),
-            age = request.POST.get('age'),
-            pronouns = request.POST.get('pronouns'),
-            location = request.POST.get('location'),
-            resume = request.POST.get('resume'),
-
-        )
-        return redirect('view-profile')
-        
-
+        # If the form is submitted, update or create the applicant object
+        form = ApplicantForm(request.POST, instance=applicant)
+        if form.is_valid():
+            applicant = form.save(commit=False)
+            applicant.User = User
+            applicant.save()
+            return redirect('view-profile', User.id)
+    else:
+        # If it's a GET request, create a form with initial data from the applicant object
+        form = ApplicantForm(instance=applicant)
 
     context = {
         'form': form,
         'User': User,
     }
     return render(request, 'base/applicant-edit.html', context)
+
           
 
 
@@ -293,20 +326,27 @@ def logoutUser(request):
 
 def home(request):
     user = request.user
+    context = {
+        'user': user,
+    }
     if user.is_authenticated:
+        
         if user.role == 'applicant':
-            job = Job.objects.all()
+            job = Job.objects.filter(is_active = True)
+            context['job'] = job
         if user.role == 'recruiter':
-            job = Job.objects.filter(Recruiter = user.recruiters)
+            job = Job.objects.filter(Recruiter = user.recruiters )
+            context['job'] = job
+        if user.role == 'admin':
+            recruiter = Organization.objects.filter(admin=user)
+            context['recruiter'] = recruiter
             
     else:
         job = Job.objects.all()
+        context['job'] = job
 
     
-    context = {
-        'user': user,
-        'job' : job,
-    }
+    
     return render(request, 'base/home.html', context) 
 
 
@@ -324,6 +364,93 @@ def jobdetails(request,pk):
     }
 
     return render(request, 'base/job-details.html', context)
+
+@login_required(login_url='login')
+def closejob(request, pk):
+    user = request.user
+    if user.role == 'recruiter':
+        job = Job.objects.get(id = pk)
+        job.is_active = False
+        job.save()
+        return redirect(request.META.get('HTTP_REFERER')) 
+    
+    return redirect(request.META.get('HTTP_REFERER'))
+
+@login_required(login_url='login')
+def activatejob(request, pk):
+    user = request.user
+    if user.role == 'recruiter':
+        job = Job.objects.get(id = pk)
+        job.is_active = True
+        job.save()
+        return redirect(request.META.get('HTTP_REFERER')) 
+    
+    return redirect(request.META.get('HTTP_REFERER'))
+
+
+@login_required(login_url='login')
+def shortlist(request, pk):
+    user = request.user
+    context = {'user': user}
+    if user.role == 'recruiter':
+        app = Application.objects.get(id=pk)
+        app.status = "shortlisted"
+        app.save()
+        context['app'] = app
+        return redirect(request.META.get('HTTP_REFERER'))
+
+    return redirect(request.META.get('HTTP_REFERER'))
+
+
+@login_required(login_url='login')
+def accept(request, pk):
+    user = request.user
+    context = {'user': user}
+    if user.role == 'recruiter':
+        app = Application.objects.get(id=pk)
+        if app.status == 'interviewed':
+            app.status = "accepted"
+            app.save()
+            context['app'] = app
+        return redirect(request.META.get('HTTP_REFERER'))
+
+    return redirect(request.META.get('HTTP_REFERER'))
+
+
+
+
+@login_required(login_url='login')
+def reject(request, pk):
+    user = request.user
+    context = {'user': user}
+    if user.role == 'recruiter':
+        app = Application.objects.get(id=pk)
+        if app.status == 'interviewed':
+            app.status = "rejected"
+            app.save()
+            context['app'] = app
+        return redirect(request.META.get('HTTP_REFERER'))
+
+    return redirect(request.META.get('HTTP_REFERER'))
+
+@login_required(login_url='login')
+def interview(request, pk):
+    user = request.user
+    context = {'user': user}
+    if user.role == 'recruiter':
+        app = Application.objects.get(id=pk)
+        
+        app.status = "interviewed"
+        app.save()
+        context['app'] = app
+        return redirect(request.META.get('HTTP_REFERER'))
+
+    return redirect(request.META.get('HTTP_REFERER'))
+
+
+
+
+
 
 
 

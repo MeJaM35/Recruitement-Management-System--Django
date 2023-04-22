@@ -17,13 +17,56 @@
   
     
 
-    <form method='POST'>
+    <form class='input-wrapper' method='POST'>
         {% csrf_token %}
-
-        {{form.as_p}}
-
-        <button type='submit' class="btn btn-primary"> Add </button>
+    
+        <div class="form-group">
+            <div class="input-wrapper">
+                {{ form.position.label_tag }}
+                {{ form.position }}
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="input-wrapper">
+                {{ form.start_date.label_tag }}
+                {{ form.start_date }}
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="input-wrapper">
+                {{ form.pay_range.label_tag }}
+                {{ form.pay_range }}
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="input-wrapper">
+                {{ form.description.label_tag }}
+                {{ form.description }}
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="input-wrapper">
+                {{ form.skills_req.label_tag }}
+                {{ form.skills_req }}
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="input-wrapper">
+                {{ form.edu_req.label_tag }}
+                {{ form.edu_req }}
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="input-wrapper">
+                {{ form.exp_req.label_tag }}
+                {{ form.exp_req }}
+            </div>
+        </div>
+    
+        <button class="rounded25 sub-sub rl-btn">Add</button>
     </form>
+    
+    
 
     
 

@@ -9,17 +9,23 @@
 
 {% include 'header.html' %}
 
-<h1> Add User </h1>
+<h1> Add Recruiter </h1>
 
-    <form method='POST'>
+    <form class='input-wrapper' method='POST'>
         {% csrf_token %}
-        {{form.as_p}}
+        <p><label for="{{ form.first_name.auto_id }}">{{ form.first_name.label_tag }}</label> {{ form.first_name }}</p>
+        <p><label for="{{ form.last_name.auto_id }}">{{ form.last_name.label_tag }}</label> {{ form.last_name }}</p>
+        <p><label for="{{ form.username.auto_id }}">{{ form.username.label_tag }}</label> {{ form.username }}</p>
+        <p><label for="{{ form.email.auto_id }}">{{ form.email.label_tag }}</label> {{ form.email }}</p>
+        <p><label for="{{ form.phone.auto_id }}">{{ form.phone.label_tag }}</label> {{ form.phone }}</p>
+        <p><label for="{{ form.password1.auto_id }}">{{ form.password1.label_tag }}</label> {{ form.password1 }}</p>
+        <p><label for="{{ form.password2.auto_id }}">{{ form.password2.label_tag }}</label> {{ form.password2 }}</p>
 
         <label for="role value='Role'> Role </label>
         <input type="text" name="role"/>
         
 
-        <button type='submit' class="btn btn-primary"> Add Recruiter </button>
+        <button type='submit' class="rounded25 sub-sub rl-btn"> Add </button>
     </form>
 
 

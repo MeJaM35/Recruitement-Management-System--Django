@@ -20,7 +20,7 @@
             </div>
             <div class="sub-sub">{{app.job.position}} </div>
 
-            <div class="job-card-description"> <a href='{{app.applicant.resume.url}}'> Resume </a></div>
+            <div class="job-card-description"> <a href='{% url 'pdf_view' app.applicant.id %}'> Resume </a></div>
             <div class="float-right">
             <div class="fake-btn rounded25 sub-sub">
                 <a href="{% url 'shortlist' app.id %}"> Shortlist </a>
@@ -46,10 +46,10 @@
             </div>
             <div class="sub-sub">{{app.job.position}} </div>
 
-            <div class="job-card-description"> <a href='{{app.applicant.resume.url}}'> Resume </a></div>
+            <div class="job-card-description"> <a href='{% url 'pdf_view' app.applicant.id %}'> Resume </a></div>
             <div class="float-right">
             <div class="fake-btn rounded25 sub-sub">
-                <a href="{% url 'shortlist' app.id %}"> Shortlist </a>
+                <a href="{% url 'interview' app.id %}"> Interview </a>
             </div>
         </div>
         </div>
@@ -74,11 +74,14 @@
             </div>
             <div class="sub-sub">{{app.job.position}} </div>
 
-            <div class="job-card-description"> <a href='{{app.applicant.resume.url}}'> Resume </a></div>
+            <div class="job-card-description"> <a href='{% url 'pdf_view' app.applicant.id %}'> Resume </a></div>
             <div class="float-right">
             <div class="fake-btn rounded25 sub-sub">
-                <a href="{% url 'shortlist' app.id %}"> Shortlist </a>
+                <a href="{% url 'accept' app.id %}"> Accept </a>
             </div>
+        </div>
+        <div class="fake-btn rounded25 sub-sub">
+            <a href="{% url 'reject' app.id %}"> Reject </a>
         </div>
         </div>
 
@@ -102,10 +105,10 @@
             </div>
             <div class="sub-sub">{{app.job.position}} </div>
 
-            <div class="job-card-description"> <a href='{{app.applicant.resume.url}}'> Resume </a></div>
+            <div class="job-card-description"> <a href='{% url 'pdf_view' app.applicant.id %}'> Resume </a></div>
             <div class="float-right">
             <div class="fake-btn rounded25 sub-sub">
-                <a href="{% url 'shortlist' app.id %}"> Shortlist </a>
+                <a href="{% url 'shortlist' app.id %}"> Send Letter </a>
             </div>
         </div>
         </div>
@@ -130,11 +133,11 @@
             </div>
             <div class="sub-sub">{{app.job.position}} </div>
 
-            <div class="job-card-description"> <a href='{{app.applicant.resume.url}}'> Resume </a></div>
+            <div class="job-card-description"> <a href='{% url 'pdf_view' app.applicant.id %}'> Resume </a></div>
             <div class="float-right">
-            <div class="fake-btn rounded25 sub-sub">
+            {% comment %} <div class="fake-btn rounded25 sub-sub">
                 <a href="{% url 'shortlist' app.id %}"> Shortlist </a>
-            </div>
+            </div> {% endcomment %}
         </div>
         </div>
 

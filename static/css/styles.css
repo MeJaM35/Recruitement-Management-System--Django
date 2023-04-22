@@ -389,7 +389,8 @@ padding-bottom: -10px;
 
 .fake-btn{
   background-color: #0046C8;
-  width:100px;
+  width:fit-content;
+  padding : 0px 10px 0px 10px;
   height:40px;
   margin-left: auto;
   margin-right: auto;
@@ -834,16 +835,80 @@ min-height: 1080px;
   margin-top: 20px;
 }
 
-.reg-form input[type="text"], input[type="email"], input[type="password"] {
+
+
+
+.reg-form input {
   height: 50px;
-  margin-left: 12%;
-  margin-right: 12%;
+  margin-left: 10%;
+  margin-right: 2%;
   margin-bottom: 10px;
   margin-top: 20px;
   font-size: 25px;
   border-radius:25px;
   font-family: 'Poppins', sans-serif;
+  width: 100%;
 }
+
+.reg-form-org input {
+  height: 50px;
+  margin-left: 10%;
+  margin-right: 2%;
+  margin-bottom: 10px;
+  margin-top: 20px;
+  font-size: 25px;
+  border-radius:25px;
+  font-family: 'Poppins', sans-serif;
+  width: 100%;
+}
+
+
+.form-group {
+  margin-bottom: 10px;
+}
+
+.input-wrapper {
+  background-color: #f1ffff;
+  border-radius: 25px;
+  padding: 10px;
+}
+
+.input-wrapper input,
+.input-wrapper textarea {
+  border: none;
+  border-radius: 25px;
+  width: 100%;
+}
+
+.reg-form-org input {
+  height: 50px;
+  margin-left: 10%;
+  margin-right: 2%;
+  margin-bottom: 10px;
+  margin-top: 20px;
+  font-size: 25px;
+  border-radius: 25px;
+  font-family: 'Poppins', sans-serif;
+  width: 78%;
+}
+
+
+
+
+.admin-form table {
+  margin: auto; /* center the table */
+}
+
+.admin-form input[type="text"],
+.admin-form input[type="password"] {
+  border-radius: 25px; /* add border radius */
+  padding: 10px; /* add padding between input fields */
+  display: block; /* make inputs a block element to center them */
+  margin: auto; /* center the inputs */
+  margin-bottom: 20px;
+  margin-right: 20px;
+}
+
 
 
 

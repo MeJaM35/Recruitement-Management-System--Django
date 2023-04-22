@@ -13,6 +13,38 @@
 
 <div class="container-fluid">
 
+    {% if user.is_authenticated == False %}
+
+    <div class="cont-custom">
+
+        <div class="vertical-box rounded25">
+    
+            <div class="subheadings"> Hiring Now <i class="fa-solid fa-caret-right"></i></div>
+    
+    {% for j in job %}
+            <div class=" rounded25 job-cards">
+                <div class="subheadings">
+                    {{j.position}}
+                </div>
+                <div class="sub-sub">{{j.Org.name}} </div>
+    
+                <div class="job-card-description"> {{j.description}}</div>
+                <div class="float-right">
+                <div class="fake-btn rounded25 sub-sub">
+                    <a href="{% url 'apply' j.id %}"> Apply </a>
+                </div>
+            </div>
+            </div>
+    
+            {% endfor %}
+    
+        
+    
+    
+        </div>
+
+        {% endif %}
+
     
 
 
@@ -20,20 +52,52 @@
 
 
 
-{% if user.is_authenticated %}
 
 
 
-{% else %}
 
-<a href='{% url 'register-org' %}'> <h3> Register as Organization </h3> </a>
 
-{% endif %}
+
+
+
+
+</div>
+
 
 
 {%if user.role == 'admin' %}
 
-<a href="{% url 'add-recruiter' %}" > Add Recruiter </a>
+<div class="fake-btn rounded25 sub-sub">
+    <a href="{% url 'add-recruiter' %}"> add-recruiter </a>
+</div>
+
+<div class="cont-custom">
+
+    <div class="vertical-box rounded25">
+
+        <div class="subheadings"> Recruiters <i class="fa-solid fa-caret-right"></i></div>
+
+{% for r in recruiter %}
+        <div class=" rounded25 job-cards">
+            <div class="subheadings">
+                {{r.User.username}}
+            </div>
+            <div class="sub-sub">{{r.User.fname}} </div>
+
+            <div class="job-card-description"> {{r.User.lname}}</div>
+            <div class="float-right">
+            <div class="fake-btn rounded25 sub-sub">
+                <a href="#"> Remove </a>
+            </div>
+        </div>
+        </div>
+
+        {% endfor %}
+
+    
+
+
+    </div>
 
 
 {% endif %}
@@ -110,6 +174,8 @@
     <div class="subheadings"> Active <i class="fa-solid fa-caret-right"></i></div>
 
     {% for j in job %}
+    {% if j.is_active == True %}
+
         <div class=" rounded25 job-cards">
             <div class="subheadings">
                 {{j.position}}
@@ -119,11 +185,15 @@
             <div class="job-card-description"> {{j.description}}</div>
             <div class="float-right">
             <div class="fake-btn rounded25 sub-sub">
-                <a href="#"> Close </a>
+                <a href="{% url 'job-details' j.id %}"> View More </a>
+            </div>
+            <div class="fake-btn rounded25 sub-sub">
+                <a href="{% url 'close-job' j.id %}"> Close </a>
             </div>
         </div>
         </div>
 
+        {% endif %}
         {% endfor %}
 
 
@@ -131,9 +201,10 @@
 
 <div class="vertical-box rounded25">
 
-    <div class="subheadings"> Active <i class="fa-solid fa-caret-right"></i></div>
+    <div class="subheadings"> Inactive <i class="fa-solid fa-caret-right"></i></div>
 
     {% for j in job %}
+    {% if j.is_active == False %}
         <div class=" rounded25 job-cards">
             <div class="subheadings">
                 {{j.position}}
@@ -143,15 +214,15 @@
             <div class="job-card-description"> {{j.description}}</div>
             <div class="float-right">
                 <div class="fake-btn rounded25 sub-sub">
-                    <a href="{% url 'job-details' j.id %}"> View More </a>
-                </div>
-            <div class="float-right">
+                    <a href="#"> View More </a>
+                
             <div class="fake-btn rounded25 sub-sub">
-                <a href="#"> Close </a>
+                <a href="{% url 'activate-job' j.id %}"> Activate </a>
             </div>
         </div>
         </div>
 
+        {% endif %}
         {% endfor %}
 
 

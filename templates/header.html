@@ -34,6 +34,7 @@
     <title>Recruiter Header</title>
   </head>
   <body class='bdy'>
+    
     <nav class="navbar navbar-expand-lg ">
       <div class="container-fluid">
         <ul class="navbar-nav logo">
@@ -52,16 +53,22 @@
         </ul>
 
           <ul class="navbar-nav logo float-right">
+            
             <li class="float-right icon search rounded25">
+              
+                
               <input
                 class="rounded25 no-border "
                 type="text"
                 placeholder="Search"
+                name="q" 
               />
               <button class="search-icon rounded25">
                 <i class="icon fa-sharp fa-solid fa-magnifying-glass"></i>
               </button>
+            
             </li>
+          
             <!-- Avatar -->
             {% if user.is_authenticated %}
 
@@ -84,12 +91,14 @@
                                 </div>
                 <ul>
                   <li>
+                    
                     <a
                       class="nav-link d-flex align-items-center"
                       href="{% url 'view-profile' user.id %}"
                     >
                       Profile</a
                     >
+                    
                   </li>
 
                   <li>

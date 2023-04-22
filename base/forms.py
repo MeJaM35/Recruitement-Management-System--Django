@@ -1,5 +1,5 @@
 from django import forms
-from django.forms import ModelForm
+from django.forms import ModelForm, DateInput
 from .models import User, Applicant, Edu, Exp, Organization, Recruiter, Job, Skill
 from django.contrib.auth.forms import UserCreationForm
 
@@ -23,7 +23,7 @@ class UserSignUpForm(UserCreationForm):
 class ProfileForm(ModelForm):
     class Meta:
         model = User
-        fields = ['pfp', 'username', 'first_name', 'last_name']
+        fields = ['pfp', 'username', 'fname', 'lname']
 
 
 
@@ -31,13 +31,25 @@ class ProfileForm(ModelForm):
 class ApplicantForm(ModelForm):
     class Meta:
         model = Applicant
-        fields = ['about', 'age', 'pronouns', 'location', 'resume',  ]
+        fields = ['about', 'age', 'pronouns', 'location', 'resume'  ]
 
 
 class EduForm(ModelForm):
+    start_date = forms.DateField(widget=DateInput(attrs={'type': 'date'}))
+    end_date = forms.DateField(widget=DateInput(attrs={'type': 'date'}))
+
     class Meta:
         model = Edu
-        fields = ['degree', 'inst', 'start_date', 'end_date', 'grade', 'credentials'  ]
+        fields = ['degree', 'inst', 'start_date', 'end_date', 'grade', 'credentials']
+        widgets = {
+            'start_date': DateInput(attrs={'type': 'date'}),
+            'end_date': DateInput(attrs={'type': 'date'}),
+        }
+        input_formats = {
+            'start_date': ['%Y-%m-%d'],
+            'end_date': ['%Y-%m-%d'],
+        }
+
 
 
 class ExpForm(ModelForm):
