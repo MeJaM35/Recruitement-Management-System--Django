@@ -545,3 +545,5 @@ def desc(request,pk):
     return render(request, 'base/desc.html', context) 
 
 
+def ERROR(request):
+    return render(request,"base/notq.html")

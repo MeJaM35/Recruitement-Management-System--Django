@@ -1,0 +1,16 @@
+{
+    "configurations": [
+        {
+            "type": "chrome",
+            "name": "http://127.0.0.1:3000/templates/base/notq.html",
+            "request": "launch",
+            "url": "http://127.0.0.1:3000/templates/base/notq.html"
+        },
+        {
+            "type": "chrome",
+            "name": "http://127.0.0.1:3000/templates/base/register.html",
+            "request": "launch",
+            "url": "http://127.0.0.1:3000/templates/base/register.html"
+        }
+    ]
+}

@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+
+
+
+{% block content %}
+
+{% load static %}
+
+<div class="notq"><a>Sorry,You're not qualified enough!</a></div>
+
+<div class="fix-top-left"> <a href="{{ request.META.HTTP_REFERER }}"> <i class="fa-solid fa-angle-left"></i> back </a></div>
+
+{% endblock %}
