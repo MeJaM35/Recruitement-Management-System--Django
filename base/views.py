@@ -9,14 +9,15 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.core.mail import EmailMessage, get_connection
 from datetime import datetime
 from django.views import View
+from django.conf import settings
 
 
 def cgpa(cgpa):
-    if cgpa <= 10:
-        return cgpa
+    if int(cgpa) <= 10:
+        return int(cgpa)
     else:
-        cgpa = cgpa / 10
-        return cgpa
+        cgpa = int(cgpa) / 10
+        return int(cgpa)
 
 
 @login_required(login_url='login')
@@ -219,7 +220,9 @@ def add_edu(request):
     edu = Edu.objects.filter(applicant = User.applicant)
     form = EduForm(request.POST)
     if request.method == 'POST':
-       edu = form.save()
+       edu = form.save(commit=False)
+       edu.grade = cgpa(edu.grade)
+       edu.save()
        User.applicant.edu.add(edu)
 
 
@@ -467,6 +470,19 @@ def accept(request, pk):
             app.status = "accepted"
             app.save()
             context['app'] = app
+            # email functionality
+            applicant = Applicant.objects.get(User=app.app)
+            recipient = applicant.User.email
+            subject = 'Your job application has been accepted!'
+            message = f'Hi {applicant.User.fname},\n\nWe are pleased to inform you that your job application has been accepted. Please contact us at {settings.DEFAULT_FROM_EMAIL} to schedule the next steps of the hiring process.\n\nBest regards,\nThe Hiring Team'
+            sender = settings.DEFAULT_FROM_EMAIL
+            send_mail(
+                subject,
+                message,
+                sender,
+                [recipient],
+                fail_silently=False,
+            )
         return redirect(request.META.get('HTTP_REFERER'))
 
     return redirect(request.META.get('HTTP_REFERER'))
@@ -531,10 +547,17 @@ def addJob(request):
                 start_date = request.POST.get('start_date'),
                 pay_range = request.POST.get('pay_range'),
                 description = request.POST.get('description'),
+                grade_req = cgpa(request.POST.get('grade_req')),
+                exp_req = request.POST.get('exp_req'),
+                edu_req = request.POST.get('edu_req'),
+                met_req = request.POST.get('met_req') == 'on',
+
                
 
 
             )
+            job.skills_req.add(request.POST.get('skills_req'))
+            job.save()
             
             
             return redirect('home')
@@ -595,7 +618,7 @@ def Apply(request, pk):
             return redirect('ERROR')
         except:
 
-            if job.req_met:
+            if job.met_req:
                 try:
                     min_req = job.edu_req
                     app_ed = app.objects.get(min_req = app.edu.level)

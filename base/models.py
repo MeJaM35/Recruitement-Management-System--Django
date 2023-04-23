@@ -77,6 +77,7 @@ class Edu(models.Model):
         skills = models.ManyToManyField(Skill, blank=True)
         grade = models.DecimalField(max_digits=5, decimal_places=2, null=True)
         credentials = models.URLField(blank=True)
+        level = models.CharField(max_length = 50, choices = EDU_LEVEL, default = 'graduation')
 
         def convert_percentage_to_cgpa(self):
             try:
@@ -148,7 +149,8 @@ class Job(models.Model):
     pay_range = models.IntegerField()
     description = models.TextField(null=True)
     skills_req = models.ManyToManyField(Skill, blank=True, null = True)
-    exp_req = models.CharField(max_length=50, blank=True, null = True)
+    met_req = models.BooleanField(default=False)
+    exp_req = models.IntegerField(max_length=50, blank=True, null = True)
     edu_req = models.CharField(max_length = 50, choices = EDU_LEVEL, default = 'graduation')
     grade_req = models.IntegerField(null=True, blank=True)
     is_active = models.BooleanField(default= True)
