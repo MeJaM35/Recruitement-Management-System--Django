@@ -87,7 +87,7 @@
             <div class="job-card-description"> {{r.User.lname}}</div>
             <div class="float-right">
             <div class="fake-btn rounded25 sub-sub">
-                    <a href="#"> Details </a>
+                    <a href="{% url 'recruiter-details' r.id %}"> Details </a>
             </div>
             <div class="fake-btn rounded25 sub-sub">
                 <a href="#"> Remove </a>

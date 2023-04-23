@@ -23,6 +23,10 @@ urlpatterns = [
     path('organization/register', views.register_org, name='register-org'),
     path('organization/admin/register/<str:pk>', views.register_admin, name='register-admin'),
     path('organization/admin/add-recruiter/', views.add_recruiter, name='add-recruiter'),
+    path('organization/admin/recruiter-details/<str:pk>', views.dashboard, name='recruiter-details'),
+    path('organization/admin/recruiter-details/<str:pk>/<str:id>', views.get_apps, name='get-apps'),
+
+
 
 
     path('organization/recruiter/add-job/', views.addJob, name='add-job'),
