@@ -1,22 +1,75 @@
+
+
+
 {% extends 'base.html' %}
 
-
-
-
 {% block content %}
-
 {% load static %}
+  {% include 'header.html' %}
+  <div class="table-container">
+    <table>
+      <tr>
+        <td>
+          <svg height="50" width="50">
+            <circle cx="25" cy="25" r="20" fill="blue" />
+          </svg>
+        </td><td>Applied</td>
+        <td>{{ applied_count }}</td>
+      
+      </tr>
+      <tr>
+        <td><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="30" height="30">
+            <path fill="#4CAF50" d="M23.97 7.701c-.126-.127-.291-.192-.469-.192s-.343.065-.47.192L9.396 21.064 1.058 12.726c-.26-.259-.684-.259-.943 0s-.259.683 0 .943l8.65 8.649c.259.259.684.259.943 0l14.98-14.98c.259-.26.259-.684 0-.943z"/>
+          </svg>
+          </td>
+        <td>Accepted</td>
+        <td>{{ applied_count }}</td>
+    </tr>
+      <tr>
+        <td><svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50">
+            <circle cx="25" cy="25" r="24" stroke="#FF0000" fill="none" stroke-width="2"/>
+            <path d="M25 13 L25 22" stroke="#FF0000" stroke-width="2"/>
+            <path d="M25 30 L25 35" stroke="#FF0000" stroke-width="2"/>
+          </svg>
+          
+          </td>
+        <td>Rejected</td>
+        <td>{{ rejected_count }}</td>
+      </tr>
+      <tr>
+        <td><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="50" height="50">
+            <path fill="#2196F3" d="M6 2h6c.55 0 1 .45 1 1s-.45 1-1 1H7v18h6c.55 0 1 .45 1 1s-.45 1-1 1H6c-.55 0-1-.45-1-1V3c0-.55.45-1 1-1z"/>
+          </svg>
+          </td>
+        <td>Shortlisted</td>
+        <td>{{ shortlisted_count }}</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>Interviewed</td>
+        <td>{{ interviwed_count }}</td>
+      </tr>
+    </table>
+  </div>
+  
 
+  
+ 
+  <div class="notifications">
+    <p>Notifications</p>
+    <div class="job-position">
+      {% for application in app %}
+    
+        <div class=" rounded25 job-cards-notif  ">
+          <div class="">{{ application.job.position }}</div>
+          <div class="">Status:{{ application.status }}</div>
+          {% if application.status == 'shortlisted' %}
+          <div class="">Link:<a href="https://meet.google.com/xoo-tiee-sne"> Click here to join meeeting</a></div>
+          {% endif %}
+        </div>
 
-
-{% include 'header.html' %}
-<div class="bubble rounded25"></div>
-<div class="notifications"><p>Notifications</p></div>
-
-{% for A in app %}
-<div class="nfy"><p><i class="fa-sharp fa-solid fa-exclamation"></i>{{A.job.position}}</p></div>
-<div class="hyg"><p>{{A.job.status}}</p></div>
-{% endfor %}
-
+      {% endfor %}
+    </div>
+</div>
 
 {% endblock %}

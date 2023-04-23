@@ -8,6 +8,8 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect 
 from django.core.mail import EmailMessage, get_connection
 from datetime import datetime
+from django.core.mail import send_mail
+from django.conf import settings
 
 
 def convert_cgpa_to_percentage(cgpa):
@@ -402,6 +404,9 @@ def shortlist(request, pk):
     return redirect(request.META.get('HTTP_REFERER'))
 
 
+
+
+
 @login_required(login_url='login')
 def accept(request, pk):
     user = request.user
@@ -411,7 +416,6 @@ def accept(request, pk):
         if app.status == 'interviewed':
             app.status = "accepted"
             app.save()
-            context['app'] = app
         return redirect(request.META.get('HTTP_REFERER'))
 
     return redirect(request.META.get('HTTP_REFERER'))
@@ -509,13 +513,21 @@ def notif(request):
     user = request.user
     context = {}
     if user.role == 'applicant':
-        App = Application.objects.filter(applicant = user.applicant)
-        context['app'] = App
-
-    
-   
+        App = Application.objects.filter(applicant=user.applicant)
+        context['app'] = App    
+        job_statuses = [(app.job.position, Application.status) for app in App]
+        context['job_statuses'] = job_statuses 
+        applied_count = Application.objects.filter(status='applied').count()
+        context['applied_count']= applied_count
+        applied_count = Application.objects.filter(status='shortlisted').count()
+        context['shortlisted_count']= applied_count
+        applied_count = Application.objects.filter(status='rejected').count()
+        context['rejected_count']= applied_count
+        applied_count = Application.objects.filter(status='interviewed').count()
+        context['interviewed_count']= applied_count
+         
+        
     return render(request, 'base/notif.html', context)
-
 
 
 @login_required(login_url='login')
@@ -547,3 +559,4 @@ def desc(request,pk):
 
 def ERROR(request):
     return render(request,"base/notq.html")
+
