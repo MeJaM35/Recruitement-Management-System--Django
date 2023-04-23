@@ -96,7 +96,7 @@ class Edu(models.Model):
 
 
 class Applicant(models.Model):
-    User = models.OneToOneField(User, null=True, related_name='applicant', on_delete=models.CASCADE)
+    User = models.OneToOneField(User, null=True, blank=True, related_name='applicant', on_delete=models.CASCADE)
     about = models.TextField(blank=True, null=True)
     age = models.IntegerField(null=True)
     pronouns = models.CharField(max_length=10, null=True)
@@ -108,15 +108,7 @@ class Applicant(models.Model):
     github = models.URLField(blank=True)
     linkedin = models.URLField(blank=True)
 
-    def resume_upload_to(self, filename):
-        # Generate the dynamic path for the resume file based on username
-        return 'resumes/{}/{}'.format(self.User.username, filename)
-
-    def save(self, *args, **kwargs):
-        # Override the save method to update the upload_to parameter
-        if self.resume:
-            self.resume.upload_to = self.resume_upload_to
-        super(Applicant, self).save(*args, **kwargs)
+    
 
     def __str__(self):
         return str(self.User.username)
@@ -137,7 +129,7 @@ class Recruiter(models.Model):
 
 class Organization(models.Model):
     name = models.CharField(max_length=50, null=True)
-    logo = models.ImageField(upload_to='pfps', null=True, blank=True, default='default.jpg')
+    logo = models.ImageField(upload_to='logo', null=True, blank=True, default='logo.svg')
     admin = models.ForeignKey(User, blank=True, null=True, on_delete=models.CASCADE)
     email = models.EmailField(null=True, unique=True)
     website = models.URLField(null=True, blank=True)
@@ -163,6 +155,11 @@ class Job(models.Model):
 
     def __str__(self):
             return str(self.position)
+    
+
+class Project(models.Model):
+    logo = models.ImageField(upload_to='pfps', null=True, blank=True, default='default.jpg')
+    link = models.URLField(blank=False)
     
 
 class Application(models.Model):

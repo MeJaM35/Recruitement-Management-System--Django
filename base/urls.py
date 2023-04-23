@@ -16,6 +16,8 @@ urlpatterns = [
     path('applicant/more-details/add-education', views.add_edu, name='add-edu'),
     path('applicant/more-details/add-experience', views.add_exp, name='add-exp'),
     path('applicant/edit-details/<str:pk>/', views.user_edit, name='user-edit'),
+    path('applicant/addLinks/', views.addLinks, name='add-links'),
+
     path('<str:pk>/view-profile', views.view_profile, name='view-profile'),
 
     path('organization/register', views.register_org, name='register-org'),

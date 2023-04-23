@@ -112,3 +112,9 @@ class JobForm(ModelForm):
 
         }
 
+class LinkForm(ModelForm):
+    class Meta:
+        model = Applicant
+        fields = ('github', 'linkedin')
+
+

@@ -344,8 +344,8 @@ padding-bottom: -10px;
 
 .job-card-description {
   white-space: nowrap;
-  overflow: hidden;
- 
+  
+  word-wrap: break-word; 
 }
 
 .vertical-box {
@@ -358,8 +358,8 @@ padding-bottom: -10px;
   margin-top: 50px;
   padding-bottom: 20px;
   float: left;
-  overflow-x: auto;
-  white-space: nowrap;
+  display: block;
+  /* white-space: nowrap; */
 }
 
 @media screen and (max-width: 768px) {
@@ -529,6 +529,11 @@ color: rgba(0, 0, 0, 0.5);
   position: relative;
   padding-bottom:20px;
   
+}
+
+.link-bbl{
+  display: flex; /* Use flexbox to align items */
+
 }
 
 .f1ff{
@@ -1150,5 +1155,10 @@ background: rgba(0, 0, 0, 1);
   .suggestions ul {
     justify-content: center;
   }
-
+}
+.profile-bbl .link-logo {
+  font-size: 50px;
+  color: #000000;
+  margin-right: 20px;
+  float: left;
 }
