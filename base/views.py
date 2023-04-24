@@ -668,10 +668,74 @@ def desc(request,pk):
 
     return render(request, 'base/desc.html', context) 
 
+@login_required(login_url='login')
+def dashboard(request,pk):
+    user = request.user
+    rec = Recruiter.objects.get(pk=pk)
+    filter_param = request.GET.get('filter')
+
+    context = {
+        'user': user,
+        'rec': rec,
+    }
+    if user.role == 'admin':
+        job = Job.objects.filter(Recruiter = rec)
+        if filter_param == 'all':
+        # Filter for all records
+            job = Job.objects.filter(Recruiter = rec)
+        elif filter_param == 'active':
+            # Filter for active records
+            job = Job.objects.filter(Recruiter = rec, is_active = True)
+        elif filter_param == 'passive':
+            # Filter for passive records
+            job = Job.objects.filter(Recruiter = rec, is_active = False)
+        else:
+            # Default filter option (if none selected)
+            job = Job.objects.filter(Recruiter = rec)
+        context['job'] = job
+
+    return render(request, 'base/recruiter-details.html', context)
+
+@login_required(login_url='login')
+def get_apps(request,pk, *args, **kwargs): 
+    user = request.user
+    rec = Recruiter.objects.get(id=pk)
+    job = Job.objects.get(id=kwargs.get('id'))
+    apps = Application.objects.filter(job = job)
+
+    status = request.GET.get('filter')
+    
+    # Filter applications based on selected status
+    if status == 'all':
+        apps = Application.objects.filter(job=job)
+    elif status == 'applied':
+        apps = Application.objects.filter(job=job, status='applied')
+    elif status == 'shortlisted':
+        apps = Application.objects.filter(job=job, status='shortlisted')
+    elif status == 'interviewed':
+        apps = Application.objects.filter(job=job, status='interviewed')
+    elif status == 'accepted':
+        apps = Application.objects.filter(job=job, status='accepted')
+    elif status == 'rejected':
+        apps = Application.objects.filter(job=job, status='rejected')
+    else:
+                apps = Application.objects.filter(job=job)
 
 
+
+    context= {
+        'user': user,
+        'rec' : rec,
+        'job' : job,
+        'apps': apps
+    }
+    return render(request, 'base/applications.html', context)
+
+    
 
 
 def ERROR(request):
     return render(request,"base/notq.html")
+
+
 
