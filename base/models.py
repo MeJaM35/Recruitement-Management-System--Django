@@ -77,6 +77,7 @@ class Edu(models.Model):
         skills = models.ManyToManyField(Skill, blank=True)
         grade = models.DecimalField(max_digits=5, decimal_places=2, null=True)
         credentials = models.URLField(blank=True)
+        level = models.CharField(max_length = 50, choices = EDU_LEVEL, default = 'graduation')
 
         def convert_percentage_to_cgpa(self):
             try:
@@ -96,7 +97,7 @@ class Edu(models.Model):
 
 
 class Applicant(models.Model):
-    User = models.OneToOneField(User, null=True, related_name='applicant', on_delete=models.CASCADE)
+    User = models.OneToOneField(User, null=True, blank=True, related_name='applicant', on_delete=models.CASCADE)
     about = models.TextField(blank=True, null=True)
     age = models.IntegerField(null=True)
     pronouns = models.CharField(max_length=10, null=True)
@@ -108,15 +109,7 @@ class Applicant(models.Model):
     github = models.URLField(blank=True)
     linkedin = models.URLField(blank=True)
 
-    def resume_upload_to(self, filename):
-        # Generate the dynamic path for the resume file based on username
-        return 'resumes/{}/{}'.format(self.User.username, filename)
-
-    def save(self, *args, **kwargs):
-        # Override the save method to update the upload_to parameter
-        if self.resume:
-            self.resume.upload_to = self.resume_upload_to
-        super(Applicant, self).save(*args, **kwargs)
+    
 
     def __str__(self):
         return str(self.User.username)
@@ -137,7 +130,7 @@ class Recruiter(models.Model):
 
 class Organization(models.Model):
     name = models.CharField(max_length=50, null=True)
-    logo = models.ImageField(upload_to='pfps', null=True, blank=True, default='default.jpg')
+    logo = models.ImageField(upload_to='logo', null=True, blank=True, default='logo.svg')
     admin = models.ForeignKey(User, blank=True, null=True, on_delete=models.CASCADE)
     email = models.EmailField(null=True, unique=True)
     website = models.URLField(null=True, blank=True)
@@ -156,13 +149,19 @@ class Job(models.Model):
     pay_range = models.IntegerField()
     description = models.TextField(null=True)
     skills_req = models.ManyToManyField(Skill, blank=True, null = True)
-    exp_req = models.CharField(max_length=50, blank=True, null = True)
+    met_req = models.BooleanField(default=False)
+    exp_req = models.IntegerField(max_length=50, blank=True, null = True)
     edu_req = models.CharField(max_length = 50, choices = EDU_LEVEL, default = 'graduation')
     grade_req = models.IntegerField(null=True, blank=True)
     is_active = models.BooleanField(default= True)
 
     def __str__(self):
             return str(self.position)
+    
+
+class Project(models.Model):
+    logo = models.ImageField(upload_to='pfps', null=True, blank=True, default='default.jpg')
+    link = models.URLField(blank=False)
     
 
 class Application(models.Model):

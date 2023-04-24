@@ -207,6 +207,40 @@
 </div>
 </div>
 
+<div class="rounded25 f1ff profile-bbl link-bbl ">
+
+
+    {% if request.user == User %}
+
+
+    <a
+      class="edit-btn nav-link d-flex align-items-center rounded25 eee"
+     href="{% url 'add-links' %}"
+      
+    > <i class="fa-regular fa-pen-to-square"></i></a>
+
+    {% endif %}
+    
+
+    
+
+
+
+
+
+<div class=' rounded25'> <a href="{{User.applicant.github}}"  target="_blank"> <i class="fa-brands fa-github link-logo"></i> </a> </div>
+
+<div class=' rounded25'> <a href="{{User.applicant.linkedin}}" target="_blank"> <i class="fa-brands fa-linkedin link-logo"></i> </a> </div>
+
+
+
+
+
+
+</div>
+
+
+
 {% if request.user.role == 'recruiter' %}
 
 <div class="fake-btn rounded25 sub-sub">

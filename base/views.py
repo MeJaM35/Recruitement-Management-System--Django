@@ -1,26 +1,57 @@
 from django.core.mail import send_mail
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import User, Applicant, Skill, Edu, Exp, Organization, Recruiter, Job, Application
-from .forms import UserSignUpForm, ApplicantForm, ProfileForm, EduForm, ExpForm, OrgForm, AdminForm, RecruiterForm, JobForm
+from .forms import UserSignUpForm, ApplicantForm, ProfileForm, EduForm, ExpForm, OrgForm, AdminForm, RecruiterForm, JobForm, LinkForm
 from django.contrib import messages
 from django.contrib.auth import login, logout , authenticate
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect 
+from django.http import HttpResponseRedirect, HttpResponse
 from django.core.mail import EmailMessage, get_connection
 from datetime import datetime
-from django.core.mail import send_mail
+from django.views import View
 from django.conf import settings
 
 
-def convert_cgpa_to_percentage(cgpa):
-    percentage = cgpa * 9.5
-    return percentage
+def cgpa(cgpa):
+    if int(cgpa) <= 10:
+        return int(cgpa)
+    else:
+        cgpa = int(cgpa) / 10
+        return int(cgpa)
 
 
-from django.http import HttpResponse
-from django.shortcuts import get_object_or_404
-from django.views import View
-from .models import Applicant
+@login_required(login_url='login')
+def addLinks(request):
+    user = request.user
+    Org = None
+    if user.role == 'admin':
+        Org = Organization.objects.get(admin = user)
+
+    try:
+        # Try to retrieve an existing object associated with the user
+        instance = Applicant.objects.get(User=user)
+        is_update = True
+    except Applicant.DoesNotExist:
+        # If the object does not exist, create a new one
+        instance = Applicant(User=user)
+        is_update = False
+
+    if request.method == 'POST':
+        form = LinkForm(request.POST, instance=instance)
+        if form.is_valid():
+            form.save()
+            return redirect(request.META.get('HTTP_REFERER'))
+    else:
+        form = LinkForm(instance=instance)
+
+    context = {
+        'form' : form,
+        'is_update': is_update ,
+        'Org': 'Org' # Pass a flag indicating if it's an update or not
+    }
+    return render(request, 'base/add-links.html', context)
+
+
 
 class PDFView(View):
     def get(self, request, pk):
@@ -121,6 +152,7 @@ def add_recruiter(request):
 
     context  = {
         'form': form,
+        'Org': Org,
     }
 
     return render(request, 'base/add-recruiter.html', context)
@@ -142,6 +174,7 @@ def register(request):
             messages.success(
                 request, f'Your account has been created! You are now logged in!')
             if user.role == 'applicant':
+                Applicant.objects.create(User=user)
                 return redirect('applicant-edit')
         else:
             form = UserSignUpForm(request.POST)
@@ -162,6 +195,9 @@ def register(request):
 
 @login_required(login_url='login')
 def view_profile(request, pk):
+    Org = None
+    if request.user.role == 'admin':
+        Org = Organization.objects.get(admin = request.user)
     user = User.objects.get(id=pk)
     Skills = Skill.objects.filter(applicant = user.applicant)
     edu = Edu.objects.filter(applicant = user.applicant)
@@ -172,6 +208,7 @@ def view_profile(request, pk):
         'Skills' : Skills,
         'Edu' : edu,
         'exp': exp,
+        'Org': Org
 
     }
     return render(request, 'base/applicant-details.html', context)
@@ -183,7 +220,9 @@ def add_edu(request):
     edu = Edu.objects.filter(applicant = User.applicant)
     form = EduForm(request.POST)
     if request.method == 'POST':
-       edu = form.save()
+       edu = form.save(commit=False)
+       edu.grade = cgpa(edu.grade)
+       edu.save()
        User.applicant.edu.add(edu)
 
 
@@ -267,31 +306,36 @@ def user_edit(request, pk):
 
 @login_required(login_url='login')
 def applicant_edit(request):
-    User = request.user
-
-    # Get the existing applicant object for the logged-in user
-    try:
-        applicant = Applicant.objects.get(User=User)
-    except Applicant.DoesNotExist:
-        applicant = None
+    user = request.user
+    applicant = Applicant.objects.get(User=user)
+    form = ApplicantForm(request.POST, instance=applicant)
 
     if request.method == 'POST':
-        # If the form is submitted, update or create the applicant object
         form = ApplicantForm(request.POST, instance=applicant)
-        if form.is_valid():
-            applicant = form.save(commit=False)
-            applicant.User = User
-            applicant.save()
-            return redirect('view-profile', User.id)
-    else:
-        # If it's a GET request, create a form with initial data from the applicant object
-        form = ApplicantForm(instance=applicant)
+        applicant.location = request.POST.get('location')
+        applicant.pronouns = request.POST.get('pronouns')
+        applicant.age = request.POST.get('age')
 
+        applicant.about = request.POST.get('about')
+        applicant.resume = request.POST.get('resume')
+        applicant.save()
+        return redirect('view-profile', user.id)
+    else:
+        form = ApplicantForm(request.POST, instance=applicant)
     context = {
         'form': form,
-        'User': User,
+        'User': user,
     }
     return render(request, 'base/applicant-edit.html', context)
+    
+
+
+
+
+
+
+
+
 
           
 
@@ -328,10 +372,16 @@ def logoutUser(request):
 
 def home(request):
     user = request.user
+    Org = None
+    
     context = {
         'user': user,
+        'Org': Org,
     }
     if user.is_authenticated:
+
+        if user.role == 'admin':
+            Org = Organization.objects.get(admin = user)
         
         if user.role == 'applicant':
             job = Job.objects.filter(is_active = True)
@@ -340,7 +390,8 @@ def home(request):
             job = Job.objects.filter(Recruiter = user.recruiters )
             context['job'] = job
         if user.role == 'admin':
-            recruiter = Organization.objects.filter(admin=user)
+            org = Organization.objects.get(admin=user)
+            recruiter = Recruiter.objects.filter(org=org)
             context['recruiter'] = recruiter
             
     else:
@@ -357,12 +408,16 @@ def home(request):
 @login_required(login_url='login')
 def jobdetails(request,pk):
     user = request.user
+    Org = None
+    if user.role == 'admin':
+        Org = Organization.objects.get(admin = user)
     if user.role == 'recruiter':
         job = Job.objects.get(id = pk)
         apps = Application.objects.filter(job=job)
 
     context = {
         'apps' : apps,
+        'Org': Org,
     }
 
     return render(request, 'base/job-details.html', context)
@@ -370,6 +425,7 @@ def jobdetails(request,pk):
 @login_required(login_url='login')
 def closejob(request, pk):
     user = request.user
+    
     if user.role == 'recruiter':
         job = Job.objects.get(id = pk)
         job.is_active = False
@@ -416,6 +472,20 @@ def accept(request, pk):
         if app.status == 'interviewed':
             app.status = "accepted"
             app.save()
+            context['app'] = app
+            # email functionality
+            applicant = Applicant.objects.get(User=app.app)
+            recipient = applicant.User.email
+            subject = 'Your job application has been accepted!'
+            message = f'Hi {applicant.User.fname},\n\nWe are pleased to inform you that your job application has been accepted. Please contact us at {settings.DEFAULT_FROM_EMAIL} to schedule the next steps of the hiring process.\n\nBest regards,\nThe Hiring Team'
+            sender = settings.DEFAULT_FROM_EMAIL
+            send_mail(
+                subject,
+                message,
+                sender,
+                [recipient],
+                fail_silently=False,
+            )
         return redirect(request.META.get('HTTP_REFERER'))
 
     return redirect(request.META.get('HTTP_REFERER'))
@@ -463,6 +533,9 @@ def interview(request, pk):
 @login_required(login_url='login')
 def addJob(request):
     User = request.user
+    Org = None
+    if User.role == 'admin':
+        Org = Organization.objects.get(admin = User)
     print(User.recruiters.org)
     form = JobForm()
 
@@ -477,16 +550,24 @@ def addJob(request):
                 start_date = request.POST.get('start_date'),
                 pay_range = request.POST.get('pay_range'),
                 description = request.POST.get('description'),
+                grade_req = cgpa(request.POST.get('grade_req')),
+                exp_req = request.POST.get('exp_req'),
+                edu_req = request.POST.get('edu_req'),
+                met_req = request.POST.get('met_req') == 'on',
+
                
 
 
             )
+            job.skills_req.add(request.POST.get('skills_req'))
+            job.save()
             
             
             return redirect('home')
 
     context = {
         'form': form,
+        'Org': Org,
     }
 
 
@@ -511,7 +592,12 @@ def about(request):
 @login_required(login_url='login')
 def notif(request):
     user = request.user
-    context = {}
+    Org = None
+    if user.role == 'admin':
+        Org = Organization.objects.get(admin = user)
+    context = {
+        'Org': Org,
+    }
     if user.role == 'applicant':
         App = Application.objects.filter(applicant=user.applicant)
         context['app'] = App    
@@ -533,14 +619,40 @@ def notif(request):
 @login_required(login_url='login')
 def Apply(request, pk):
     user = request.user
+    
     job = Job.objects.get(id=pk)
     if user.role == 'applicant':
-        application = Application.objects.create(
-            job = job,
-            applicant = user.applicant,
-            status = 'applied',
-        )
-        return redirect('notif')
+        app = Applicant.objects.get(User = user)
+
+        try:
+            appl = Application.objects.get(job=job)
+            return redirect('ERROR')
+        except:
+
+            if job.met_req:
+                try:
+                    min_req = job.edu_req
+                    app_ed = app.objects.get(min_req = app.edu.level)
+                    edu = app_ed.edu
+                    if edu.grade >= job.grade_req:
+                        application = Application.objects.create(
+                        job = job,
+                        applicant = app_ed,
+                        status = 'applied',
+                        )
+                    else:
+                        return redirect('ERROR')
+
+                except:
+                        return redirect('ERROR')
+                
+            else:
+                    application = Application.objects.create(
+                    job = job,
+                    applicant = app,
+                    status = 'applied',
+                    )
+                    return redirect('notif')
     return render(request, 'base/apply.html')
 
 
@@ -555,6 +667,9 @@ def desc(request,pk):
 
 
     return render(request, 'base/desc.html', context) 
+
+
+
 
 
 def ERROR(request):

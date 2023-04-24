@@ -7,6 +7,9 @@
 
 {% load static %}
 
+<link rel="stylesheet" href="{% static 'css/styles.css' %}" type="text/css">
+
+
 
 
 {% include 'header.html' %}
@@ -23,11 +26,13 @@
         <div class="flex-row">
         <div class="job-description-header">Experiencen:</div>
         <div class="exp-req">{{job.exp_req}}</div>
+        
       </div>
     </div>
     </div>
     <div class="job-card-body">
       <div class="org-name">{{job.Org.name}}</div>
+      <div class="org-name">Pay Range: {{job.pay_range}}</div>
       <div class="job-description-header">Description:</div>
       <div class="job-description">{{job.description}}</div>
       <div class="skill-header">Skills:</div>

@@ -31,7 +31,7 @@
                 <div class="job-card-description"> {{j.description}}</div>
                 <div class="float-right">
                 <div class="fake-btn rounded25 sub-sub">
-                    <a href="{% url 'apply' j.id %}"> Apply </a>
+                    <a href="{% url 'desc' j.id %}"> Learn More </a>
                 </div>
             </div>
             </div>
@@ -87,8 +87,12 @@
             <div class="job-card-description"> {{r.User.lname}}</div>
             <div class="float-right">
             <div class="fake-btn rounded25 sub-sub">
+                    <a href="#"> Details </a>
+            </div>
+            <div class="fake-btn rounded25 sub-sub">
                 <a href="#"> Remove </a>
             </div>
+            
         </div>
         </div>
 
@@ -120,7 +124,7 @@
             <div class="job-card-description"> {{j.description}}</div>
             <div class="float-right">
             <div class="fake-btn rounded25 sub-sub">
-                <a href="{% url 'desc' j.id %}"> Apply </a>
+                <a href="{% url 'desc' j.id %}"> Learn More </a>
             </div>
         </div>
         </div>
@@ -146,7 +150,7 @@
             <div class="job-card-description"> {{j.description}}</div>
             <div class="float-right">
             <div class="fake-btn rounded25 sub-sub">
-                <a href="{% url 'desc' j.id %}"> Apply </a>
+                <a href="{% url 'desc' j.id %}"> Learn More </a>
             </div>
         </div>
         </div>

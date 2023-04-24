@@ -96,7 +96,7 @@ class RecruiterForm(UserCreationForm):
 class JobForm(ModelForm):
     class Meta:
         model = Job
-        fields = ['position', 'start_date', 'pay_range', 'description', 'skills_req', 'edu_req', 'exp_req'  ]
+        fields = ['position', 'start_date', 'pay_range', 'description', 'skills_req', 'edu_req', 'exp_req', 'grade_req', 'met_req'  ]
 
         widgets = {
             'position': forms.TextInput(attrs={'placeholder': 'Position'}),
@@ -111,4 +111,10 @@ class JobForm(ModelForm):
             # 'exp_req': forms.SelectMultiple(),
 
         }
+
+class LinkForm(ModelForm):
+    class Meta:
+        model = Applicant
+        fields = ('github', 'linkedin')
+
 
