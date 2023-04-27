@@ -28,6 +28,8 @@ admin.site.index_title = "Welcome toRecruiterBox  Researcher Portal"
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('base.urls')),
+    path('verification/', include('verify_email.urls')),
+
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -7,6 +7,8 @@
 
 {% load static %}
 
+{% load humanize %}
+
 
 
 {% include 'header.html' %}
@@ -28,7 +30,7 @@
                 </div>
                 <div class="sub-sub">{{j.Org.name}} </div>
     
-                <div class="job-card-description"> {{j.description}}</div>
+                <div class="job-card-description"> {{j.description|truncatechars:35}}</div>
                 <div class="float-right">
                 <div class="fake-btn rounded25 sub-sub">
                     <a href="{% url 'desc' j.id %}"> Learn More </a>
@@ -110,31 +112,6 @@
 
 <div class="cont-custom">
 
-    <div class="vertical-box rounded25">
-
-        <div class="subheadings"> Hiring Now <i class="fa-solid fa-caret-right"></i></div>
-
-{% for j in job %}
-        <div class=" rounded25 job-cards">
-            <div class="subheadings">
-                {{j.position}}
-            </div>
-            <div class="sub-sub">{{j.Org.name}} </div>
-
-            <div class="job-card-description"> {{j.description}}</div>
-            <div class="float-right">
-            <div class="fake-btn rounded25 sub-sub">
-                <a href="{% url 'desc' j.id %}"> Learn More </a>
-            </div>
-        </div>
-        </div>
-
-        {% endfor %}
-
-    
-
-
-    </div>
 
     <div class="vertical-box rounded25">
 
@@ -147,7 +124,7 @@
             </div>
             <div class="sub-sub">{{j.Org.name}} </div>
 
-            <div class="job-card-description"> {{j.description}}</div>
+            <div class="job-card-description"> {{j.description|truncatechars:35}}</div>
             <div class="float-right">
             <div class="fake-btn rounded25 sub-sub">
                 <a href="{% url 'desc' j.id %}"> Learn More </a>
@@ -186,7 +163,7 @@
             </div>
             <div class="sub-sub">{{j.Org.name}} </div>
 
-            <div class="job-card-description"> {{j.description}}</div>
+            <div class="job-card-description"> {{j.description|truncatechars:35}}</div>
             <div class="float-right">
             <div class="fake-btn rounded25 sub-sub">
                 <a href="{% url 'job-details' j.id %}"> View More </a>
@@ -215,7 +192,7 @@
             </div>
             <div class="sub-sub">{{j.Org.name}} </div>
 
-            <div class="job-card-description"> {{j.description}}</div>
+            <div class="job-card-description"> {{j.description|truncatechars:35 }}</div>
             <div class="float-right">
                 <div class="fake-btn rounded25 sub-sub">
                     <a href="#"> View More </a>

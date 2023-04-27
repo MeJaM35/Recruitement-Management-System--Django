@@ -11,6 +11,11 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
+import os
+
+from dotenv import load_dotenv
+load_dotenv()
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-8o55pgv*k(ie-5nvw_t^4k&sf25waxki4*56ba0rrdoj*c57de'
+SECRET_KEY = str(os.getenv('SECRET_KEY'))
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -37,11 +42,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
 
     #user dependency
     'crispy_forms',
     'fontawesomefree',
     'channels',
+    "verify_email.apps.VerifyEmailConfig",
+
+
     
     
 
@@ -108,8 +117,11 @@ CHANNEL_LAYERS = {
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': str(os.getenv('DB_NAME')),
+        'USER': str(os.getenv('DB_USER')),
+        'PASSWORD' : str(os.getenv('DB_PASSWORD')),
+        'PORT' : str(os.getenv('DB_PORT')),
     }
 }
 
@@ -135,6 +147,8 @@ AUTH_PASSWORD_VALIDATORS = [
 
 AUTH_USER_MODEL="base.User"
 
+LOGIN_URL = "login"
+
 
 
 # Internationalization
@@ -156,27 +170,26 @@ STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 
 
+
+
+
+
 STATICFILES_DIRS = [
     BASE_DIR, "static"
 ]
 
-GOOGLE_API_KEY = '734004312381-livt7drmj3oj70poggr86v20rmpsalea.apps.googleusercontent.com'
+GOOGLE_API_KEY = str(os.getenv('GOOGLE_API_KEY'))
 
-GOOGLE_API_SECRET = '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'
+GOOGLE_API_SECRET = str(os.getenv('GOOGLE_API_SECRET'))
 
 
 
-EMAIL_HOST              = 'mail.sertibots.com'
-
-EMAIL_HOST_USER         = 'mj@sertibots.com'
-
-EMAIL_HOST_PASSWORD     = 'meet2004'
-
-EMAIL_PORT              = 465
-
-EMAIL_USE_TLS           = True
-
-EMAIL_USE_SSL           = False
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = str(os.getenv('EMAIL_HOST'))
+EMAIL_PORT = os.getenv('EMAIL_PORT')
+EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS')
+EMAIL_HOST_USER = str(os.getenv('EMAIL_HOST_USER'))
+EMAIL_HOST_PASSWORD = str(os.getenv('EMAIL_HOST_PASSWORD'))
 
 
 
@@ -194,9 +207,3 @@ CSRF_TRUSTED_ORIGINS = ['https://2433-120-138-111-68.ngrok-free.app',
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'therecruiterrms@gmail.com'
-EMAIL_HOST_PASSWORD = 'mbqwkdrdlivqivbv'

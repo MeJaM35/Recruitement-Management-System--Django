@@ -1,7 +1,10 @@
 from django import forms
 from django.forms import ModelForm, DateInput
-from .models import User, Applicant, Edu, Exp, Organization, Recruiter, Job, Skill
+from .models import User, Applicant, Edu, Exp, Organization, Recruiter, Job, Skill, Interview
 from django.contrib.auth.forms import UserCreationForm
+from django.forms import widgets
+
+
 
 
 class UserSignUpForm(UserCreationForm):
@@ -17,6 +20,7 @@ class UserSignUpForm(UserCreationForm):
             'password1': forms.PasswordInput(attrs={'placeholder': 'Password'}),
             'password2': forms.PasswordInput(attrs={'placeholder': 'Confirm Password'}),
         }
+
 
 
 
@@ -40,7 +44,7 @@ class EduForm(ModelForm):
 
     class Meta:
         model = Edu
-        fields = ['degree', 'inst', 'start_date', 'end_date', 'grade', 'credentials']
+        fields = ['degree', 'inst', 'start_date', 'end_date', 'grade', 'credentials', 'level' ]
         widgets = {
             'start_date': DateInput(attrs={'type': 'date'}),
             'end_date': DateInput(attrs={'type': 'date'}),
@@ -50,6 +54,16 @@ class EduForm(ModelForm):
             'end_date': ['%Y-%m-%d'],
         }
 
+
+
+class InterviewForm(forms.ModelForm):
+    class Meta:
+        model = Interview
+        fields = ('date', 'time')
+        widgets = {
+            'date': forms.DateInput(attrs={'type': 'date'}),
+            'time': forms.TimeInput(attrs={'type': 'time'}),
+        }
 
 
 class ExpForm(ModelForm):

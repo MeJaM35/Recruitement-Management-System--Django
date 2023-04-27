@@ -1,7 +1,7 @@
 from django.core.mail import send_mail
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import User, Applicant, Skill, Edu, Exp, Organization, Recruiter, Job, Application
-from .forms import UserSignUpForm, ApplicantForm, ProfileForm, EduForm, ExpForm, OrgForm, AdminForm, RecruiterForm, JobForm, LinkForm
+from .models import User, Applicant, Skill, Edu, Exp, Organization, Recruiter, Job, Application, Interview
+from .forms import UserSignUpForm, ApplicantForm, ProfileForm, EduForm, ExpForm, OrgForm, AdminForm, RecruiterForm, JobForm, LinkForm, InterviewForm
 from django.contrib import messages
 from django.contrib.auth import login, logout , authenticate
 from django.contrib.auth.decorators import login_required
@@ -10,6 +10,9 @@ from django.core.mail import EmailMessage, get_connection
 from datetime import datetime
 from django.views import View
 from django.conf import settings
+from verify_email.email_handler import send_verification_email
+
+
 
 
 def cgpa(cgpa):
@@ -170,12 +173,10 @@ def register(request):
             user = form.save(commit=False)
             user.role = 'applicant'
             user.save()
-            login(request, user)
-            messages.success(
-                request, f'Your account has been created! You are now logged in!')
             if user.role == 'applicant':
                 Applicant.objects.create(User=user)
-                return redirect('applicant-edit')
+                inactive_user = send_verification_email(request, form)
+                return HttpResponseRedirect('https://mail.google.com/', target='_blank')        
         else:
             form = UserSignUpForm(request.POST)
             messages.error(request, 'An error occurred during registration')
@@ -455,6 +456,19 @@ def shortlist(request, pk):
         app.status = "shortlisted"
         app.save()
         context['app'] = app
+         # email functionality
+        applicant = app.applicant
+        recipient = applicant.User.email
+        subject = 'Your job application has been accepted!'
+        message = f'Hi {applicant.User.fname},\n\nWe are pleased to inform you that your job application at {app.job.Org.name} for {app.job.position} has been {app.status}. Please contact us at {settings.DEFAULT_FROM_EMAIL} to schedule the next steps of the hiring process.\n\nBest regards,\nThe Hiring Team'
+        sender = settings.DEFAULT_FROM_EMAIL
+        send_mail(
+            subject,
+            message,
+            sender,
+            [recipient],
+            fail_silently=False,
+        )
         return redirect(request.META.get('HTTP_REFERER'))
 
     return redirect(request.META.get('HTTP_REFERER'))
@@ -474,10 +488,10 @@ def accept(request, pk):
             app.save()
             context['app'] = app
             # email functionality
-            applicant = Applicant.objects.get(User=app.app)
+            applicant = app.applicant
             recipient = applicant.User.email
             subject = 'Your job application has been accepted!'
-            message = f'Hi {applicant.User.fname},\n\nWe are pleased to inform you that your job application has been accepted. Please contact us at {settings.DEFAULT_FROM_EMAIL} to schedule the next steps of the hiring process.\n\nBest regards,\nThe Hiring Team'
+            message = f'Hi {applicant.User.fname},\n\nWe are pleased to inform you that your job application at {app.job.Org.name} for {app.job.position} has been {app.status}. Please contact us at {settings.DEFAULT_FROM_EMAIL} to schedule the next steps of the hiring process.\n\nBest regards,\nThe Hiring Team'
             sender = settings.DEFAULT_FROM_EMAIL
             send_mail(
                 subject,
@@ -503,6 +517,19 @@ def reject(request, pk):
             app.status = "rejected"
             app.save()
             context['app'] = app
+             # email functionality
+            applicant = app.applicant
+            recipient = applicant.User.email
+            subject = 'Your job application has been accepted!'
+            message = f'Hi {applicant.User.fname},\n\nWe are pleased to inform you that your job application at {app.job.Org.name} for {app.job.position} has been {app.status}. Please contact us at {settings.DEFAULT_FROM_EMAIL} to schedule the next steps of the hiring process.\n\nBest regards,\nThe Hiring Team'
+            sender = settings.DEFAULT_FROM_EMAIL
+            send_mail(
+                subject,
+                message,
+                sender,
+                [recipient],
+                fail_silently=False,
+            )
         return redirect(request.META.get('HTTP_REFERER'))
 
     return redirect(request.META.get('HTTP_REFERER'))
@@ -513,13 +540,36 @@ def interview(request, pk):
     context = {'user': user}
     if user.role == 'recruiter':
         app = Application.objects.get(id=pk)
-        
-        app.status = "interviewed"
-        app.save()
-        context['app'] = app
-        return redirect(request.META.get('HTTP_REFERER'))
+        form = InterviewForm()
+        context['form'] = form
 
-    return redirect(request.META.get('HTTP_REFERER'))
+        if request.method == 'POST':
+        
+            form = InterviewForm()
+            context['form'] = form
+
+            date = request.POST.get('date')
+            time = request.POST.get('time')
+            interview = Interview.objects.create(date=date, time=time, application=app)
+            
+            context['app'] = app
+            applicant = app.applicant
+            recipient = applicant.User.email
+            subject = 'Your job application has been accepted!'
+            message = f'Hi {applicant.User.fname},\n\nWe are pleased to inform you that your job application at {app.job.Org.name} for {app.job.position} has been scheduled for an interview on {app.app.time} at {app.app.date}. Please Login to your account to get the meeting link.\n\nBest regards,\nThe Hiring Team'
+            sender = settings.DEFAULT_FROM_EMAIL
+            send_mail(
+                subject,
+                message,
+                sender,
+                [recipient],
+                fail_silently=False,
+            )
+            app.status = "interviewed"
+            app.save()
+            return redirect(request.META.get('HTTP_REFERER'))
+
+    return render(request, 'base/interview.html', context)
 
 
 
@@ -632,7 +682,7 @@ def Apply(request, pk):
             if job.met_req:
                 try:
                     min_req = job.edu_req
-                    app_ed = app.objects.get(min_req = app.edu.level)
+                    app_ed = Applicant.objects.get(User = user, job=job, min_req = app.edu.level)
                     edu = app_ed.edu
                     if edu.grade >= job.grade_req:
                         application = Application.objects.create(

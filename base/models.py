@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from datetime import datetime
 
+
 EDU_LEVEL = (
      ('basic', 'basic'),
      ('higher', 'higher'),
@@ -37,6 +38,7 @@ class User(AbstractUser):
     lname = models.CharField(max_length=20, null=True)
     phone = models.BigIntegerField(null=True)
     role = models.CharField(max_length = 50, choices = ROLE_CHOICES, default='applicant')
+    
     #bio = models.TextField(blank=True, null=True)
     #pronouns = models.CharField(max_length=10, null=True, blank=True)
     ##pfp = models.ImageField(upload_to='pfps', null=True, blank=True, default='default.jpg')
@@ -50,6 +52,8 @@ class User(AbstractUser):
     USERNAME_FIELD = 'email'
 
     REQUIRED_FIELDS = ['username']
+
+
 
 
 class Skill(models.Model):
@@ -77,7 +81,6 @@ class Edu(models.Model):
         skills = models.ManyToManyField(Skill, blank=True)
         grade = models.DecimalField(max_digits=5, decimal_places=2, null=True)
         credentials = models.URLField(blank=True)
-        level = models.CharField(max_length = 50, choices = EDU_LEVEL, default = 'graduation')
 
         def convert_percentage_to_cgpa(self):
             try:
@@ -169,8 +172,18 @@ class Application(models.Model):
     job = models.ForeignKey(Job, null=True, blank=True, related_name='app', on_delete=models.SET_NULL)
     status = models.CharField(max_length = 50, choices = STATUS_CHOICES, default='not_applied')
 
+class Interview(models.Model):
+     date = models.DateField()
+     time = models.TimeField()
+     application = models.ForeignKey(Application, related_name='app', on_delete=models.CASCADE)
 
 
 
+class EmailVerificationToken(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    token = models.CharField(max_length=128)
+    created_at = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+        return f"{self.user.username} - {self.token}"
 # Create your models here.

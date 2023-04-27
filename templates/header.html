@@ -93,6 +93,8 @@
                                 </div>
                 <ul>
                   <li>
+
+                    {% if user.role == 'applicant' %}
                     
                     <a
                       class="nav-link d-flex align-items-center"
@@ -100,6 +102,8 @@
                     >
                       Profile</a
                     >
+
+                    {% endif %}
                     
                   </li>
 

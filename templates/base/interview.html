@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+
+
+{% include 'header.html' %}
+
+<div class="container-fluid">
+
+    
+
+
+
+<h1> Shedule an Interview </h1>
+
+
+
+
+<div class="bbl-lg rounded25 ">
+
+
+
+
+
+
+<form  method='POST'>
+  {% csrf_token %}
+<div class="input-wrapper">
+  <label for="{{ form.date.id_for_label }}">Date:</label>
+  {{ form.date }}
+</div>
+  <br>
+  <div class="input-wrapper">
+
+  <label for="{{ form.time.id_for_label }}">Time:</label>
+  {{ form.time }}
+  </div>
+  
+
+  <button type='submit' class="rounded25 rl-btn"> Schedule </button>
+</form>
+
+
+
+              
+
+
+         
+
+
+
+</div>
+{% endblock %}
