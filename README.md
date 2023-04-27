@@ -76,7 +76,5 @@ Once you log in, you'll be redirected to the dashboard, where you can see an ove
 
 To create a new job opening, click on the "Create Job Opening" button on the dashboard. Fill in the necessary details such as job title, description, salary, and required skills.
 
-### Applicants
 
-To
  
