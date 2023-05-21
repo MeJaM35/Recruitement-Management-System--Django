@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+
+
+
+
+{% block content %}
+
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'css/styles.css' %}" type="text/css">
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+<!-- Include Bootstrap JS -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+
+{% include 'header.html' %}
+
+<div class="bdy-container">
+
+
+  {% if user.role == 'admin' %}
+
+  <!-- HTML code for the filter button with dropdown menu -->
+  <div class="btn-group">
+    <button type="button" class="  rl-btn rounded25 sub-sub dropdown-toggle" data-toggle="dropdown"
+      aria-haspopup="true" aria-expanded="false">
+      <i class="fa-solid fa-filter" style="color: #ffffff;"></i> Filter
+    </button>
+    <div class="dropdown-menu">
+      <a class="dropdown-item" href="?filter=all">All</a>
+      <a class="dropdown-item" href="?filter=applied">Applied</a>
+      <a class="dropdown-item" href="?filter=shortlisted">Shortlisted</a>
+      <a class="dropdown-item" href="?filter=inteviewed">Interviewed</a>
+      <a class="dropdown-item" href="?filter=accepted">Accepted</a>
+      <a class="dropdown-item" href="?filter=rejected">Rejected</a>
+
+
+
+    </div>
+  </div>
+
+
+  <div class="vertical-box rounded25">
+
+    <div class="subheadings"> All Applications in {{job.position}} <i class="fa-solid fa-caret-right"></i></div>
+
+    {% for app in apps %}
+    <div class=" rounded25 job-cards">
+        <div class="subheadings">
+         <a href='{% url 'view-profile' app.applicant.User.id %}'>   {{app.applicant}} </a>
+        </div>
+        <div class="sub-sub">{{app.job.position}} </div>
+
+        <div class="job-card-description"> <a href='{% url 'pdf_view' app.applicant.id %}'> Resume </a></div>
+        <div class="float-right">
+ 
+    </div>
+    </div>
+
+    {% endfor %}
+
+
+    
+</div>
+
+
+  {% endif %}
+
+</div>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+
+{% endblock %}

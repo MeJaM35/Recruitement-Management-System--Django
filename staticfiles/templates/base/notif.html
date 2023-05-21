@@ -1,0 +1,62 @@
+
+
+
+{% extends 'base.html' %}
+
+{% block content %}
+{% load static %}
+  {% include 'header.html' %}
+   <!-- Parent div -->
+   <div class="parent">
+    <!-- Child div 1 -->
+    <div class="child ">
+        <!-- Content for child div 1 -->
+        <p>applied  </p>
+        <p>{{applied_count}}</p>
+    </div>
+        <!-- Child div 4 -->
+        <div class="child ">
+          <!-- Content for child div 4 -->
+          <p>shortlisted</p>
+          <p>{{shortlisted_count}}</p>
+      </div>
+      <div class="child ">
+        <!-- Content for child div 4 -->
+        <p>interviewed</p>
+        <p>{{interviewed_count}}</p>
+    </div>
+    <!-- Child div 2 -->
+    <div class="child ">
+        <!-- Content for child div 2 -->
+        <p>accepted</p>
+        <p>{{accepted_count}}</p>
+    </div>
+    <!-- Child div 3 -->
+    <div class="child ">
+        <!-- Content for child div 3 -->
+        <p>rejected</p>
+        <p>{{rejected_count}}</p>
+    </div>
+    
+</div>
+
+  
+ 
+  <div class="notifications">
+    <p>Notifications</p>
+    <div class="job-position">
+      {% for application in app %}
+    
+        <div class=" rounded25 job-cards-notif notif-card-width ">
+          <div class="">{{ application.job.position }}</div>
+          <div class="">Status:{{ application.status }}</div>
+          {% if application.status == 'shortlisted' %}
+          <div class="">Link:<a href="https://meet.google.com/xoo-tiee-sne"> Click here to join meeeting</a></div>
+          {% endif %}
+        </div>
+
+      {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

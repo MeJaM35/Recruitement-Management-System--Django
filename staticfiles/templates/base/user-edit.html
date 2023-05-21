@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<div class="container-fluid">
+
+    {% if messages %}
+    <ul class="messages">
+    {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+    </ul>
+{% endif %}
+
+    {% include 'header.html' %}
+
+<h1> Edit Details </h1>
+
+<form class = "input-wrapper" enctype="multipart/form-data" method='POST'>
+    {% csrf_token %}
+    <label for="{{ pform.pfp.auto_id }}">Profile Picture</label>
+    {{ pform.pfp }}
+    
+    <label for="{{ pform.username.auto_id }}">Username</label>
+    {{ pform.username }}
+    
+    <label for="{{ pform.fname.auto_id }}">First Name</label>
+    {{ pform.fname }}
+    
+    <label for="{{ pform.lname.auto_id }}">Last Name</label>
+    {{ pform.lname }}
+    
+
+<button class="rounded25 sub-sub rl-btn"> Edit </button>
+</form>
+
+
+    
+
+
+</div>
+{% endblock %}

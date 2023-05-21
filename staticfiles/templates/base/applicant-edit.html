@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<div class="container-fluid">
+
+    {% load static %}
+
+    {% include 'header.html' %}
+
+    {% if messages %}
+    <ul class="messages">
+    {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+    </ul>
+{% endif %}
+
+
+
+<div class="pfp-div ">
+    {% if request.user.applicant%}
+
+    <a
+                  class="edit-btn nav-link d-flex align-items-center rounded25 eee"
+                 href="{% url 'user-edit' User.id %}"
+                  
+                ><i class="fa-regular fa-pen-to-square"></i></a>
+
+                {% endif %}
+  
+    <img
+                    src="{{request.user.pfp.url}}"
+                    class="rounded-circle"
+                    loading="lazy"
+                  />
+                  <br>
+  </div>
+                  <div class="username">
+                  <b> {{User.username}} </b>
+               
+                  <br> 
+                  {{User.email}} 
+                  <br> 
+                  {{User.fname}}
+              
+                  {{User.lname}}
+  
+                  
+  
+              </div>
+  
+            </div>
+
+
+                <form class="input-wrapper" method="POST">
+                {% csrf_token %}
+
+                <!-- Render form fields as paragraphs using the form variable -->
+             
+                <label for="{{ form.about.auto_id }}">About</label>
+    {{ form.about }}
+    <br>
+    <label for="{{ form.age.auto_id }}">Age</label>
+    {{ form.age }}
+    <br>
+    <label for="{{ form.pronouns.auto_id }}">Pronouns</label>
+    {{ form.pronouns }}
+    <br>
+    <label for="{{ form.location.auto_id }}">Location</label>
+    {{ form.location }}
+    <br>
+    <label for="{{ form.resume.auto_id }}">Resume</label>
+    {{ form.resume }}
+
+                <div class="btn-cnt">
+                    <button class="rounded25 sub-sub rl-btn"> Edit </button>
+                </div>
+                <div class="btn-cnt">
+                    <!-- Add more customizations here if needed -->
+                </div>
+            </form>
+
+
+    
+
+
+</div>
+{% endblock %}

@@ -1,0 +1,272 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+
+
+{% include 'header.html' %}
+
+<div class="container-fluid">
+
+    
+<div class="rounded25 f1ff profile-bbl">
+
+
+<div class="pfp-div ">
+
+  {% if request.user == User %}
+
+  <a
+                class="edit-btn nav-link d-flex align-items-center rounded25 eee"
+               href="{% url 'user-edit' User.id %}"
+                
+              ><i class="fa-regular fa-pen-to-square"></i></a>
+
+              {% endif %}
+
+  <img
+                  src="{{request.user.pfp.url}}"
+                  class="rounded-circle"
+                  loading="lazy"
+                />
+                <br>
+</div>
+                <div class="username">
+                <b> {{User.username}} </b>
+             
+                <br> 
+                {{User.email}} 
+                <br> 
+                {{User.fname}}
+            
+                {{User.lname}}
+
+                
+
+            </div>
+
+          </div>
+
+
+
+
+
+
+
+
+          <div class="rounded25 f1ff profile-bbl">
+
+
+          <div class="pfp-div ">
+
+            {% if request.user == User %}
+
+
+            <a
+                class=" edit-btn nav-link d-flex align-items-center rounded25 eee"
+               href="{% url 'applicant-edit' %}"
+                
+              > <i class="fa-regular fa-pen-to-square"></i></a>
+
+              {% endif %}
+
+                <b> Age:</b> {{User.applicant.age}} <br>
+
+                <b> Pronouns: </b><i>{{User.applicant.pronouns}} </i>
+                <br>
+                <b> Phone: </b>{{User.phone}}
+                <br>
+
+                <b> About: </b> {{User.applicant.about}}  <br>
+
+                <b> <i class="fa-solid fa-location-pin"></i></b> {{User.applicant.location}} 
+            
+
+                </div>
+                </div>
+
+                <div class="rounded25 f1ff profile-bbl">
+
+                  <div class="pfp-div ">
+
+                    {% if request.user == User %}
+
+
+                    <a
+                class="edit-btn nav-link d-flex align-items-center rounded25 eee"
+               href="{% url 'add-skill' %}"
+                
+              > <i class="fa-regular fa-pen-to-square"></i></a>
+
+              {% endif %}
+
+
+<h4> Skills: </h4>
+
+
+{% for Skill in Skills %}
+
+<div class="bbl rounded25 float-left eee"> {{Skill.name}} </div>
+
+
+
+{% endfor %}
+
+
+
+            </div>
+          </div>
+
+          <div class="rounded25 f1ff profile-bbl">
+
+            <div class="pfp-div ">
+
+              {% if request.user == User %}
+
+
+              <a
+                class="edit-btn nav-link d-flex align-items-center rounded25 eee"
+               href="{% url 'add-edu' %}"
+                
+              > <i class="fa-regular fa-pen-to-square"></i></a>
+
+              {% endif %}
+
+              
+
+<h4> Education: </h4>
+
+
+
+{% for E in Edu %}
+
+<div class="bbl-lg rounded25 eee ">
+  
+
+<h5>{{E.degree}} </h5>  <div class="fl"><b> Start Date: </b>{{E.start_date}} <br> <b> Start Date: </b> {{E.end_date}} </div>
+
+
+
+{{E.inst}}
+
+
+</div>
+
+
+</div>
+
+{% endfor %}
+
+
+
+</div>
+</div>
+
+<div class="rounded25 f1ff profile-bbl ">
+
+  <div class="pfp-div ">
+
+    {% if request.user == User %}
+
+
+    <a
+      class="edit-btn nav-link d-flex align-items-center rounded25 eee"
+     href="{% url 'add-exp' %}"
+      
+    > <i class="fa-regular fa-pen-to-square"></i></a>
+
+    {% endif %}
+    
+
+    
+
+<h4> Experience: </h4>
+
+
+
+{% for e in exp %}
+
+<div class="bbl-lg rounded25 eee ">
+
+
+<h5>{{e.role}} </h5>  <div class="fl"><b> Start Date: </b>{{e.start_date}} <br> <b> Start Date: </b> {{e.end_date}} </div>
+
+
+
+{{e.company}}
+
+
+
+</div>
+
+{% endfor %}
+
+
+
+</div>
+</div>
+
+<div class="rounded25 f1ff profile-bbl link-bbl ">
+
+
+    {% if request.user == User %}
+
+
+    <a
+      class="edit-btn nav-link d-flex align-items-center rounded25 eee"
+     href="{% url 'add-links' %}"
+      
+    > <i class="fa-regular fa-pen-to-square"></i></a>
+
+    {% endif %}
+    
+
+    
+
+
+
+
+
+<div class=' rounded25'> <a href="{{User.applicant.github}}"  target="_blank"> <i class="fa-brands fa-github link-logo"></i> </a> </div>
+
+<div class=' rounded25'> <a href="{{User.applicant.linkedin}}" target="_blank"> <i class="fa-brands fa-linkedin link-logo"></i> </a> </div>
+
+
+
+
+
+
+</div>
+
+
+
+{% if request.user.role == 'recruiter' %}
+
+<div class="fake-btn rounded25 sub-sub">
+
+<a href="{{ request.META.HTTP_REFERER }}"> <i class="fa-solid fa-angle-left"></i> Return </a>
+
+</div>
+
+{% endif %}
+
+
+
+
+
+
+
+
+
+              
+
+
+         
+
+
+
+</div>
+
+
+{% endblock %}

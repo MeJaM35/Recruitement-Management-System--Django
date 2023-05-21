@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+
+
+{% include 'header.html' %}
+
+<div class="container-fluid">
+
+  {% if messages %}
+    <ul class="messages">
+    {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+    </ul>
+{% endif %}
+
+    
+
+
+
+<h1> Add Education </h1>
+
+
+
+{% for e in edu %}
+
+<div class="bbl-lg rounded25 eee ">
+
+
+
+{{e.degree}}
+<br>
+{{e.inst}}
+<br>
+{{e.start_date}}|{{e.end_date}}
+
+<br>
+
+{{e.grade}}
+<br>
+{{e.credentials}}
+<br>
+
+</div>
+{% endfor %}
+
+
+
+<form  method='POST'>
+  {% csrf_token %}
+<div class="input-wrapper">
+  <label for="{{ form.degree.id_for_label }}">Degree:</label>
+  {{ form.degree }}
+</div>
+  <br>
+  <div class="input-wrapper">
+
+  <label for="{{ form.level.id_for_label }}">Level:</label>
+  {{ form.level }}
+  </div>
+  <br>
+  <div class="input-wrapper">
+
+  <label for="{{ form.inst.id_for_label }}">Institution:</label>
+  {{ form.inst }}
+  </div>
+  <br>
+  <div class="input-wrapper">
+
+  <label for="{{ form.start_date.id_for_label }}">Start Date:</label>
+  {{form.start_date}}
+  </div>
+  <br>
+  <div class="input-wrapper">
+
+  <label for="{{ form.end_date.id_for_label }}">End Date:</label>
+ {{form.end_date}}
+  </div>
+  <br>
+  <div class="input-wrapper">
+
+  <label for="{{ form.grade.id_for_label }}">Grade:</label>
+  {{ form.grade }}
+  </div>
+  <br>
+  <div class="input-wrapper">
+
+  <label for="{{ form.credentials.id_for_label }}">Credentials:</label>
+  {{ form.credentials }}
+  <br>
+  </div>
+
+  <button type='submit' class="rounded25 rl-btn"> Edit </button>
+</form>
+
+
+
+              
+
+
+         
+
+
+
+</div>
+{% endblock %}

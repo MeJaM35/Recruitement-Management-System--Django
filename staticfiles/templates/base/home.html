@@ -1,0 +1,228 @@
+{% extends 'base.html' %}
+
+
+
+
+{% block content %}
+
+{% load static %}
+
+{% load humanize %}
+
+
+
+{% include 'header.html' %}
+
+<div class="container-fluid">
+
+    {% if user.is_authenticated == False %}
+
+    <div class="cont-custom">
+
+        <div class="vertical-box rounded25">
+    
+            <div class="subheadings"> Hiring Now <i class="fa-solid fa-caret-right"></i></div>
+    
+    {% for j in job %}
+            <div class=" rounded25 job-cards">
+                <div class="subheadings">
+                    {{j.position}}
+                </div>
+                <div class="sub-sub">{{j.Org.name}} </div>
+    
+                <div class="job-card-description"> {{j.description|truncatechars:35}}</div>
+                <div class="float-right">
+                <div class="fake-btn rounded25 sub-sub">
+                    <a href="{% url 'desc' j.id %}"> Learn More </a>
+                </div>
+            </div>
+            </div>
+    
+            {% endfor %}
+    
+        
+    
+    
+        </div>
+
+        {% endif %}
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+{%if user.role == 'admin' %}
+
+<div class="fake-btn rounded25 sub-sub">
+    <a href="{% url 'add-recruiter' %}"> add-recruiter </a>
+</div>
+
+<div class="cont-custom">
+
+    <div class="vertical-box rounded25">
+
+        <div class="subheadings"> Recruiters <i class="fa-solid fa-caret-right"></i></div>
+
+{% for r in recruiter %}
+        <div class=" rounded25 job-cards">
+            <div class="subheadings">
+                {{r.User.username}}
+            </div>
+            <div class="sub-sub">{{r.User.fname}} </div>
+
+            <div class="job-card-description"> {{r.User.lname}}</div>
+            <div class="float-right">
+            <div class="fake-btn rounded25 sub-sub">
+                    <a href="{% url 'recruiter-details' r.id %}"> Details </a>
+            </div>
+            <div class="fake-btn rounded25 sub-sub">
+                <a href="#"> Remove </a>
+            </div>
+            
+        </div>
+        </div>
+
+        {% endfor %}
+
+    
+
+
+    </div>
+
+
+{% endif %}
+
+{% if user.role == 'applicant' %}
+
+<div class="cont-custom">
+
+
+    <div class="vertical-box rounded25">
+
+        <div class="subheadings"> For You! <i class="fa-solid fa-caret-right"></i></div>
+
+        {% for j in job %}
+        <div class=" rounded25 job-cards">
+            <div class="subheadings">
+                {{j.position}}
+            </div>
+            <div class="sub-sub">{{j.Org.name}} </div>
+
+           {% if j.met_req %} * {% endif %} Grade required: {{j.grade_req}}
+
+            <div class="job-card-description"> {{j.description|truncatechars:35}}</div>
+            <div class="float-right">
+            <div class="fake-btn rounded25 sub-sub">
+                <a href="{% url 'desc' j.id %}"> Learn More </a>
+            </div>
+            
+        </div>
+        </div>
+
+       
+
+        {% endfor %}
+
+
+        
+    </div>
+
+    {% endif %}
+
+
+    {% if user.role == 'recruiter' %}
+
+    <div class=" fake-btn rounded25 align-items-center">
+<a  href="{% url 'add-job' %}">
+    Add Job
+</a>
+
+</div>
+
+<div class="vertical-box rounded25">
+
+    <div class="subheadings"> Active <i class="fa-solid fa-caret-right"></i></div>
+
+    {% for j in job %}
+    {% if j.is_active == True %}
+
+        <div class=" rounded25 job-cards">
+            <div class="subheadings">
+                {{j.position}}
+            </div>
+            <div class="sub-sub">{{j.Org.name}} </div>
+
+            <div class="job-card-description"> {{j.description|truncatechars:35}}</div>
+            <div class="float-right">
+            <div class="fake-btn rounded25 sub-sub">
+                <a href="{% url 'job-details' j.id %}"> View More </a>
+            </div>
+            <div class="fake-btn rounded25 sub-sub">
+                <a href="{% url 'close-job' j.id %}"> Close </a>
+            </div>
+        </div>
+        </div>
+
+        {% endif %}
+        {% endfor %}
+
+
+</div>
+
+<div class="vertical-box rounded25">
+
+    <div class="subheadings"> Inactive <i class="fa-solid fa-caret-right"></i></div>
+
+    {% for j in job %}
+    {% if j.is_active == False %}
+        <div class=" rounded25 job-cards">
+            <div class="subheadings">
+                {{j.position}}
+            </div>
+            <div class="sub-sub">{{j.Org.name}} </div>
+
+            <div class="job-card-description"> {{j.description|truncatechars:35 }}</div>
+            <div class="float-right">
+                <div class="fake-btn rounded25 sub-sub">
+                    <a href="#"> View More </a>
+                
+            <div class="fake-btn rounded25 sub-sub">
+                <a href="{% url 'activate-job' j.id %}"> Activate </a>
+            </div>
+        </div>
+        </div>
+
+        {% endif %}
+        {% endfor %}
+
+
+</div>
+    {% endif %}
+   
+    </div>
+
+    
+
+
+  
+  
+  
+
+
+        {% endblock %}

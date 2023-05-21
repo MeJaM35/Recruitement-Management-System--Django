@@ -1,0 +1,152 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<div class="container-fluid">
+
+    {% load static %}
+
+    {% include 'header.html' %}
+
+    <div class="vertical-box rounded25">
+
+        <div class="subheadings"> All Applications <i class="fa-solid fa-caret-right"></i></div>
+
+        {% for app in apps %}
+        <div class=" rounded25 job-cards">
+            <div class="subheadings">
+             <a href='{% url 'view-profile' app.applicant.User.id %}'>   {{app.applicant}} </a>
+            </div>
+            <div class="sub-sub">{{app.job.position}} </div>
+
+            <div class="job-card-description"> <a href='{% url 'pdf_view' app.applicant.id %}'> Resume </a></div>
+            <div class="float-right">
+            <div class="fake-btn rounded25 sub-sub">
+                <a href="{% url 'shortlist' app.id %}"> Shortlist </a>
+            </div>
+        </div>
+        </div>
+
+        {% endfor %}
+
+
+        
+    </div>
+
+    <div class="vertical-box rounded25">
+
+        <div class="subheadings"> Shortlisted <i class="fa-solid fa-caret-right"></i></div>
+
+        {% for app in apps %}
+        {% if app.status == 'shortlisted'%}
+        <div class=" rounded25 job-cards">
+            <div class="subheadings">
+             <a href='{% url 'view-profile' app.applicant.User.id %}'>   {{app.applicant}} </a>
+            </div>
+            <div class="sub-sub">{{app.job.position}} </div>
+
+            <div class="job-card-description"> <a href='{% url 'pdf_view' app.applicant.id %}'> Resume </a></div>
+            <div class="float-right">
+            <div class="fake-btn rounded25 sub-sub">
+                <a href="{% url 'interview' app.id %}"> Interview </a>
+            </div>
+        </div>
+        </div>
+
+        {% endif %}
+
+        {% endfor %}
+
+
+        
+    </div>
+
+    <div class="vertical-box rounded25">
+
+        <div class="subheadings"> Interviewed <i class="fa-solid fa-caret-right"></i></div>
+
+        {% for app in apps %}
+        {% if app.status == 'interviewed'%}
+        <div class=" rounded25 job-cards">
+            <div class="subheadings">
+             <a href='{% url 'view-profile' app.applicant.User.id %}'>   {{app.applicant}} </a>
+            </div>
+            <div class="sub-sub">{{app.job.position}} </div>
+
+            <div class="job-card-description"> <a href='{% url 'pdf_view' app.applicant.id %}'> Resume </a></div>
+            <div class="float-right">
+            <div class="fake-btn rounded25 sub-sub">
+                <a href="{% url 'accept' app.id %}"> Accept </a>
+            </div>
+        </div>
+        <div class="fake-btn rounded25 sub-sub">
+            <a href="{% url 'reject' app.id %}"> Reject </a>
+        </div>
+        </div>
+
+        {% endif %}
+
+        {% endfor %}
+
+
+        
+    </div>
+
+    <div class="vertical-box rounded25">
+
+        <div class="subheadings"> Accepted <i class="fa-solid fa-caret-right"></i></div>
+
+        {% for app in apps %}
+        {% if app.status == 'accepted'%}
+        <div class=" rounded25 job-cards">
+            <div class="subheadings">
+             <a href='{% url 'view-profile' app.applicant.User.id %}'>   {{app.applicant}} </a>
+            </div>
+            <div class="sub-sub">{{app.job.position}} </div>
+
+            <div class="job-card-description"> <a href='{% url 'pdf_view' app.applicant.id %}'> Resume </a></div>
+            <div class="float-right">
+            <div class="fake-btn rounded25 sub-sub">
+                <a href="{% url 'shortlist' app.id %}"> Send Letter </a>
+            </div>
+        </div>
+        </div>
+
+        {% endif %}
+
+        {% endfor %}
+
+
+        
+    </div>
+
+    <div class="vertical-box rounded25">
+
+        <div class="subheadings"> Rejected <i class="fa-solid fa-caret-right"></i></div>
+
+        {% for app in apps %}
+        {% if app.status == 'rejected'%}
+        <div class=" rounded25 job-cards">
+            <div class="subheadings">
+             <a href='{% url 'view-profile' app.applicant.User.id %}'>   {{app.applicant}} </a>
+            </div>
+            <div class="sub-sub">{{app.job.position}} </div>
+
+            <div class="job-card-description"> <a href='{% url 'pdf_view' app.applicant.id %}'> Resume </a></div>
+            <div class="float-right">
+            {% comment %} <div class="fake-btn rounded25 sub-sub">
+                <a href="{% url 'shortlist' app.id %}"> Shortlist </a>
+            </div> {% endcomment %}
+        </div>
+        </div>
+
+        {% endif %}
+
+        {% endfor %}
+
+
+        
+    </div>
+</div>
+{% endblock %}

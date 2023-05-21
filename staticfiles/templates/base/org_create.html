@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+
+
+
+{% block content %}
+
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'css/styles.css' %}" type="text/css">
+
+{% if messages %}
+    <ul class="messages">
+    {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+    </ul>
+{% endif %}
+
+
+<div class="container-fluid bg-grade">
+
+    <div class="fix-top-left"> <a href="{{ request.META.HTTP_REFERER }}"> <i class="fa-solid fa-angle-left"></i> back </a></div>
+
+    <div class="align-vert">
+
+    <div class="lgn-bbl rounded25">
+
+       
+
+        <div class="logo-lgn">
+
+            <a href="{% url 'home' %}">
+                <img
+                  src="{% static 'assets/logo.svg' %}"
+                 
+                />
+              </a>
+            
+
+            <h1> Organization </h1>
+            <p>  <a href="{% url 'login' %}" > Already Have an account? </a> </p>
+        </div>
+
+        
+
+        
+
+    <form class='reg-form-org' method='POST'>
+        {% csrf_token %}
+        
+        {{form.name}}
+        <br>
+        {{form.email}}
+        <br>
+        {{form.website}}
+
+        <div class="btn-cnt">
+            
+                <button class="rounded25 sub-sub rl-btn"> Login </button>
+
+
+            
+        </div>
+        <div class="btn-cnt">
+            
+           
+
+        
+    </div>
+
+        
+    </form>
+   
+
+
+        
+    </div>
+
+</div>
+
+
+
+
+</div>
+{% endblock %}
+
+
