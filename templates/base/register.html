@@ -8,19 +8,23 @@
 
 <link rel="stylesheet" href="{% static 'css/styles.css' %}" type="text/css">
 
-{% if messages %}
-    <ul class="messages">
+
+
+<div class="container-fluid bg-grade">
+
+    <div class="fix-top-left"> <a href="{{ request.META.HTTP_REFERER }}"> <i class="fa-solid fa-angle-left"></i> back </a></div>
+
+    {% if messages %}
+    <ul class="messages rouneded25 eee">
     {% for message in messages %}
         <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
     {% endfor %}
     </ul>
 {% endif %}
 
-<div class="container-fluid bg-grade">
-
-    <div class="fix-top-left"> <a href="{{ request.META.HTTP_REFERER }}"> <i class="fa-solid fa-angle-left"></i> back </a></div>
-
     <div class="align-vert">
+
+      
 
 
         <div class="rounded25 reg-bbl">

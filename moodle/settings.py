@@ -30,7 +30,7 @@ SECRET_KEY = str(os.getenv('SECRET_KEY'))
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '2433-120-138-111-68.ngrok-free.app']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '2b09-103-123-226-98.ngrok-free.app']
 
 
 # Application definition
@@ -69,6 +69,8 @@ CRISPY_TEMPLATE_PACK = 'bootstrap5'
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    "whitenoise.middleware.WhiteNoiseMiddleware",
+
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -196,7 +198,7 @@ EMAIL_HOST_PASSWORD = str(os.getenv('EMAIL_HOST_PASSWORD'))
 MEDIA_ROOT = BASE_DIR / 'media'
 
 
-CSRF_TRUSTED_ORIGINS = ['https://2433-120-138-111-68.ngrok-free.app',
+CSRF_TRUSTED_ORIGINS = ['https://2433-120-138-111-68.ngrok-free.app', 'https://2b09-103-123-226-98.ngrok-free.app'
     
     # add any other domains that should be allowed to make requests to your Django app
 ]
@@ -207,3 +209,4 @@ CSRF_TRUSTED_ORIGINS = ['https://2433-120-138-111-68.ngrok-free.app',
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
+STATIC_ROOT = BASE_DIR / "staticfiles"

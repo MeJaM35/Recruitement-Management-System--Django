@@ -124,13 +124,18 @@
             </div>
             <div class="sub-sub">{{j.Org.name}} </div>
 
+           {% if j.met_req %} * {% endif %} Grade required: {{j.grade_req}}
+
             <div class="job-card-description"> {{j.description|truncatechars:35}}</div>
             <div class="float-right">
             <div class="fake-btn rounded25 sub-sub">
                 <a href="{% url 'desc' j.id %}"> Learn More </a>
             </div>
+            
         </div>
         </div>
+
+       
 
         {% endfor %}
 

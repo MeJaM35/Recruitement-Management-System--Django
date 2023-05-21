@@ -1088,6 +1088,35 @@ background: rgba(0, 0, 0, 1);
  font-size: 24px;
 }
 
+.messages {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.messages li {
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+.messages li.error {
+  background-color: #ffcccc;
+  color: #cc0000;
+}
+
+.messages li.success {
+  background-color: #d9f7da;
+  color: #28a745;
+}
+
+.messages li.warning {
+  background-color: #ffeeba;
+  color: #ffc107;
+}
+
+
 
 
 

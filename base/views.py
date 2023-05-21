@@ -176,10 +176,12 @@ def register(request):
             if user.role == 'applicant':
                 Applicant.objects.create(User=user)
                 inactive_user = send_verification_email(request, form)
-                return HttpResponseRedirect('https://mail.google.com/', target='_blank')        
+                return HttpResponseRedirect('https://mail.google.com/')        
         else:
             form = UserSignUpForm(request.POST)
-            messages.error(request, 'An error occurred during registration')
+            for field, errors in form.errors.items():
+                for error in errors:
+                    messages.error(request, f'{field.title()}: {error}')           
             return redirect('register')
     else:                            # Else for 'GET' request
         form = UserSignUpForm()
@@ -675,26 +677,28 @@ def Apply(request, pk):
         app = Applicant.objects.get(User = user)
 
         try:
-            appl = Application.objects.get(job=job)
+            appl = Application.objects.get(job=job, applicant = app)
             return redirect('ERROR')
         except:
 
             if job.met_req:
-                try:
-                    min_req = job.edu_req
-                    app_ed = Applicant.objects.get(User = user, job=job, min_req = app.edu.level)
-                    edu = app_ed.edu
+                print('passed met req')
+
+                min_req = job.edu_req
+                edu = get_object_or_404(Edu, applicant = app, level = min_req)
+                if min_req == edu.level:
+                    print('passed level')
                     if edu.grade >= job.grade_req:
+                        print('passed grade')
                         application = Application.objects.create(
                         job = job,
-                        applicant = app_ed,
+                        applicant = app,
                         status = 'applied',
                         )
                     else:
                         return redirect('ERROR')
 
-                except:
-                        return redirect('ERROR')
+                
                 
             else:
                     application = Application.objects.create(
@@ -703,7 +707,7 @@ def Apply(request, pk):
                     status = 'applied',
                     )
                     return redirect('notif')
-    return render(request, 'base/apply.html')
+    return render(request, 'base/desc.html')
 
 
 def desc(request,pk):
