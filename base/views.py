@@ -685,7 +685,10 @@ def Apply(request, pk):
                 print('passed met req')
 
                 min_req = job.edu_req
-                edu = get_object_or_404(Edu, applicant = app, level = min_req)
+                try:
+                    edu = get_object_or_404(Edu, applicant = app, level = min_req)
+                except:
+                    redirect('view-profile', user.id)
                 if min_req == edu.level:
                     print('passed level')
                     if edu.grade >= job.grade_req:
