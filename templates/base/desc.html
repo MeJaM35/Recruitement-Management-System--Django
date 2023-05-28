@@ -13,6 +13,10 @@
 
 
 {% include 'header.html' %}
+
+{% if user.is_authenticated == False %}
+Please Login First
+{% endif %}
         
 {% if user.role == 'applicant' %}
 <div class="job-card">
