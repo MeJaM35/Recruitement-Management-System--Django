@@ -103,7 +103,7 @@ pyquery==2.0.0
 PySocks==1.7.1
 python-dateutil==2.8.2
 python-dotenv==1.0.0
-python-jwt==2.0.1
+python-jwt==3.3.4
 pywin32-ctypes==0.2.0
 PyYAML==6.0
 ratelim==0.1.6
